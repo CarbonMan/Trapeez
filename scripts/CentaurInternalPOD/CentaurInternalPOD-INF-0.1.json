@@ -1,0 +1,14 @@
+{
+    "components": [
+        "scripts\\CentaurInternalPOD\\CentaurInternalPOD-0.1.js"
+    ],
+    "config": {
+        "disabled": false,
+        "name*": "Centaur Internal POD",
+        "helpUrl": "https://htmlpreview.github.io/?https://github.com/CarbonMan/IoTKeys/blob/master/scripts/CentaurInternalPOD/help/help-0.1.html",
+        "process": {
+            "scan": [],
+            "save": []
+        }
+    }
+}
