@@ -1,0 +1,11 @@
+{
+    "plugins": [{
+            "id": "Centaur_I_POD",
+            "category": "Server",
+            "name": "Centaur internal POD",
+            "type": "serverComms",
+            "version": "0.1",
+            "infLocation": "scripts/CentaurInternalPOD/CentaurInternalPOD-INF-0.1.json"
+        }
+    ]
+}
