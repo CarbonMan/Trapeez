@@ -1,6 +1,6 @@
 {
     "components": [
-        "scripts\\CentaurInternalPOD\\CentaurInternalPOD-0.1.js"
+        "scripts/CentaurInternalPOD/CentaurInternalPOD-0.1.js"
     ],
     "config": {
         "disabled": false,
