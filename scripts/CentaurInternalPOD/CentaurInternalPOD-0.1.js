@@ -10,8 +10,22 @@ function InternalPOD(){
 }
 
 InternalPOD.prototype.Config = function(){
+  let currentPlugin;
   this.options = function(div, name){
-    let plugin = $T.pluginManagement.getPluginByName('Centaur_I_POD', name);
+    currentPlugin = $T.pluginManagement.getPluginByName('Centaur_I_POD', name);
+    $("#pluginLocalName").val(currentPlugin.name);
+    let settings = `<div class="field">
+        <label>Server URL</label>
+        <input type="text" id="centaurURL" placeholder="Centaur url" value="${currentPlugin.centaurURL || ''}">
+      </div>`;
+    $("#pluginSettings").html(settings);
+  };
+  this.saveOptions = function(div){
+    if (currentPlugin){
+      currentPlugin.name = $("#pluginLocalName").val();
+      currentPlugin.centaurURL = $("#centaurURL").val();
+      $T.pluginManagement.savePlugins();
+    }
   };
 };
 
