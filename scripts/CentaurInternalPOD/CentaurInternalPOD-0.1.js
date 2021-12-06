@@ -1,6 +1,6 @@
 /**
 * Downloaded by the Trapeez app
-* Creates a plugin for communicating PODs to the Centaur
+* Creates a plugin for communicating PODs to a Centaur
 * server
 */
 console.log("Centaur internal POD loaded");
@@ -37,6 +37,16 @@ InternalPOD.prototype.Config = function(){
       instance.name = $("#pluginLocalName").val();
       instance.centaurURL = $("#centaurURL").val();
       $T.pluginManagement.config.savePlugins();
+  };
+  
+  /**
+  * Create an instance of this plugin
+  */
+  this.createInstance = function(opts){
+    return {
+      name: opts.name,
+      centaurURL: ''
+    };
   };
 };
 
