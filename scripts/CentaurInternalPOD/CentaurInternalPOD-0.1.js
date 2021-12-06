@@ -1,18 +1,27 @@
+/**
+* Downloaded by the Trapeez app
+* Creates a plugin for communicating PODs to the Centaur
+* server
+*/
 console.log("Centaur internal POD loaded");
 function InternalPOD(){
-  //let configStr = localStorage.getItem('Plugin_Centaur_I_POD');
-  //if (!configStr) configStr = '[]';
-  //this.config = JSON.parse(configStr);
-  if ($T.configuration){
-    // In the Config.html page
+  if (location.href.indexOf("config.html") > -1){
+    // Runnign in the Configuration page within the app
     this.config = new InternalPOD.prototype.Config();
   }
 }
 
+/**
+* Config is used only in the configuration page
+* for editing settings.
+*/
 InternalPOD.prototype.Config = function(){
-  let currentPlugin;
+  /**
+  * Create the interface in the app for modifying 
+  * the Centaur POD options
+  */
   this.options = function(div, name){
-    currentPlugin = $T.pluginManagement.getPluginByName('Centaur_I_POD', name);
+    let currentPlugin = $T.pluginManagement.getPluginByName('Centaur_I_POD', name);
     $("#pluginLocalName").val(currentPlugin.name);
     let settings = `<div class="field">
         <label>Server URL</label>
@@ -20,13 +29,15 @@ InternalPOD.prototype.Config = function(){
       </div>`;
     $("#pluginSettings").html(settings);
   };
-  this.saveOptions = function(div){
-    if (currentPlugin){
-      currentPlugin.name = $("#pluginLocalName").val();
-      currentPlugin.centaurURL = $("#centaurURL").val();
-      $T.pluginManagement.savePlugins();
-    }
+
+  /**
+  * Called by the app when the user clicks save
+  */
+  this.saveOptions = function(instance){
+      instance.name = $("#pluginLocalName").val();
+      instance.centaurURL = $("#centaurURL").val();
+      $T.pluginManagement.config.savePlugins();
   };
 };
 
-$T.plugins['Centaur_I_POD'] = new InternalPOD();
+$T.register('Centaur_I_POD', new InternalPOD());
