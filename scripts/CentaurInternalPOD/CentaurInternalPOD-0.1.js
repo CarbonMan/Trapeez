@@ -50,4 +50,4 @@ InternalPOD.prototype.Config = function(){
   };
 };
 
-$T.register('Centaur_I_POD', new InternalPOD());
+$T.pluginManagement.register('Centaur_I_POD', new InternalPOD());
