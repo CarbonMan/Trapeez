@@ -5,9 +5,18 @@
 */
 console.log("Centaur internal POD loaded");
 function InternalPOD(){
+  /**
+  * Create an instance of this plugin
+  */
+  this.createInstance = function(opts){
+    return {
+      name: opts.name,
+      centaurURL: ''
+    };
+  };
   if (location.href.indexOf("config.html") > -1){
     // Runnign in the Configuration page within the app
-    this.config = new InternalPOD.prototype.Config();
+    this.configurationUI = new InternalPOD.prototype.Config();
   }
 }
 
@@ -39,15 +48,6 @@ InternalPOD.prototype.Config = function(){
       $T.pluginManagement.config.savePlugins();
   };
   
-  /**
-  * Create an instance of this plugin
-  */
-  this.createInstance = function(opts){
-    return {
-      name: opts.name,
-      centaurURL: ''
-    };
-  };
 };
 
 $T.pluginManagement.register('Centaur_I_POD', new InternalPOD());
