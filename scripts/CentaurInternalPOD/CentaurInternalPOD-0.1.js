@@ -30,13 +30,13 @@ InternalPOD.prototype.Config = function(){
   * the Centaur POD options
   */
   this.options = function(div, name){
-    let currentPlugin = $T.pluginManagement.getPluginByName('Centaur_I_POD', name);
-    $("#pluginLocalName").val(currentPlugin.name);
+    let instance = $T.pluginManagement.getInstanceByName('Centaur_I_POD', name);
+    $("#instanceLocalName").val(instance.name);
     let settings = `<div class="field">
         <label>Server URL</label>
-        <input type="text" id="centaurURL" placeholder="Centaur url" value="${currentPlugin.centaurURL || ''}">
+        <input type="text" id="centaurURL" placeholder="Centaur url" value="${instance.centaurURL || ''}">
       </div>`;
-    $("#pluginSettings").html(settings);
+    $("#instanceSettings").html(settings);
   };
 
   /**
