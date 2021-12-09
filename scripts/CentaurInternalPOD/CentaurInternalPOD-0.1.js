@@ -30,13 +30,9 @@ InternalPOD.prototype.Config = function(){
   * the Centaur POD options
   */
   this.options = function($div, instance){
-    //let instance = $T.pluginManagement.getInstanceByName({
-    //  id:'Centaur_I_POD', 
-    //  name});
-    
     let settings = `<div class="field">
         <label>Server URL</label>
-        <input type="text" id="centaurURL" placeholder="Centaur url" value="${instance.centaurURL || ''}">
+        <input type="text" class="instanceForm" id="centaurURL" placeholder="Centaur url" value="${instance.centaurURL || ''}">
       </div>`;
     $div.html(settings);
   };
@@ -45,7 +41,6 @@ InternalPOD.prototype.Config = function(){
   * Called by the app when the user clicks save
   */
   this.saveOptions = function(instance){
-      //instance.name = $("#pluginLocalName").val();
       instance.centaurURL = $("#centaurURL").val();
       $T.pluginManagement.config.savePlugins();
   };
