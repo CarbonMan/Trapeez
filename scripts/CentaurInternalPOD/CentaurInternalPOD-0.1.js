@@ -45,7 +45,7 @@ InternalPOD.prototype.Config = function(){
   * Called by the app when the user clicks save
   */
   this.saveOptions = function(instance){
-      instance.name = $("#pluginLocalName").val();
+      //instance.name = $("#pluginLocalName").val();
       instance.centaurURL = $("#centaurURL").val();
       $T.pluginManagement.config.savePlugins();
   };
