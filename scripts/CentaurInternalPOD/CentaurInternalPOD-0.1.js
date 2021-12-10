@@ -19,10 +19,12 @@ function InternalPOD(){
     this.configurationUI = new InternalPOD.prototype.Config();
   }
   if (typeof scanner != 'undefined'){
+    // index.js - Background transfers
     scanner.on('signatureTransfer', (ev)=>{
       console.log("Centaur POD processing");
       console.dir(ev);
     });
+    // Start processing PODs
     scanner.synchronize();
   }
 }
