@@ -18,6 +18,12 @@ function InternalPOD(){
     // Runnign in the Configuration page within the app
     this.configurationUI = new InternalPOD.prototype.Config();
   }
+  if (typeof scanner != 'undefined'){
+    scanner.on('signatureTransfer', (ev)=>{
+      console.log("Centaur POD processing");
+      console.dir(ev);
+    });
+  }
 }
 
 /**
