@@ -23,6 +23,7 @@ function InternalPOD(){
       console.log("Centaur POD processing");
       console.dir(ev);
     });
+    scanner.synchronize();
   }
 }
 
