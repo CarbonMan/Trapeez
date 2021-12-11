@@ -11,7 +11,8 @@ function InternalPOD(){
   this.createInstance = function(opts){
     return {
       name: opts.name,
-      centaurURL: ''
+      centaurHost: '',
+      centaurScript: ''
     };
   };
   if (location.href.indexOf("config.html") > -1){
@@ -47,8 +48,11 @@ InternalPOD.prototype.Config = function(){
   */
   this.options = function($div, instance){
     let settings = `<div class="field">
-        <label>Server URL</label>
-        <input type="text" class="instanceForm" id="centaurURL" placeholder="Centaur url" value="${instance.centaurURL || ''}">
+        <label>Server host</label>
+        <input type="text" class="instanceForm" id="centaurHost" placeholder="host" value="${instance.centaurHost || ''}">
+      </div><div class="field">
+        <label>Server script</label>
+        <input type="text" class="instanceForm" id="centaurScript" placeholder="script" value="${instance.centaurScript || ''}">
       </div>`;
     $div.html(settings);
   };
@@ -57,7 +61,8 @@ InternalPOD.prototype.Config = function(){
   * Called by the app when the user clicks save
   */
   this.saveOptions = function(instance){
-      instance.centaurURL = $("#centaurURL").val();
+      instance.centaurHost = $("#centaurHost").val();
+      instance.centaurScript = $("#centaurScript").val();
       $T.pluginManagement.config.savePlugins();
   };
   
