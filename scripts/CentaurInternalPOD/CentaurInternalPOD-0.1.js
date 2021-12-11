@@ -11,6 +11,8 @@ function InternalPOD(){
   this.createInstance = function(opts){
     return {
       name: opts.name,
+      centaurUserName: '',
+      centaurPassword: '',
       centaurHost: '',
       centaurScript: ''
     };
@@ -48,6 +50,12 @@ InternalPOD.prototype.Config = function(){
   */
   this.options = function($div, instance){
     let settings = `<div class="field">
+        <label>Username</label>
+        <input type="text" class="instanceForm" id="centaurUserName" placeholder="host" value="${instance.centaurUserName || ''}">
+      </div><div class="field">
+        <label>Password</label>
+        <input type="text" class="instanceForm" id="centaurPassword" placeholder="script" value="${instance.centaurPassword || ''}">
+      </div><div class="field">
         <label>Server host</label>
         <input type="text" class="instanceForm" id="centaurHost" placeholder="host" value="${instance.centaurHost || ''}">
       </div><div class="field">
