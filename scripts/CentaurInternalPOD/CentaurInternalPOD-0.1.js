@@ -27,6 +27,13 @@ function InternalPOD(){
     // Start processing PODs
     scanner.synchronize();
   }
+  if (typeof signatureCapture != 'undefined'){
+    // index.js - Background transfers
+    signatureCapture.on('storeSignature', (ev)=>{
+      // Tell the app that the signature should be transferred 
+      ev.transfer = true;
+    });
+  }
 }
 
 /**
