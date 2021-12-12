@@ -13,12 +13,15 @@ class CentaurPODtransfers {
             this.x2State.script + ".x2";
         this.scanBuffer = [];
         this.bufferPtr = 0;
+        this.$div = opts.$div;
+        this.username = opts.username;
+        this.password = opts.password;
     }
     /**
      * Add a job to be transfered.
      */
-    add(request) {
-        this.scanBuffer.push(request);
+    add(opts) {
+        this.scanBuffer.push(opts.request);
     }
     /**
      * Attempt to transfer POD
@@ -77,19 +80,21 @@ class CentaurPODtransfers {
                 }
             }
 
-            if (currentEditId == rq.id) {
-                $("#inputFields").empty();
-                $("#inputDiv").hide();
-            }
             // Remove from pending
             var item = this.scanBuffer.splice(this.bufferPtr, 1)[0];
-
-            // Remove from the list
-            $("#" + item.id).remove();
+            if (this.$div){
+                if (currentEditId == rq.id) {
+                    $("#inputFields").empty();
+                    $("#inputDiv").hide();
+                }
+                // Remove from the list
+                $("#" + item.id).remove();
+            }
             // Tell the host to remove the image file
             var msg = {
                 type: "delete",
-                fileName: item.fileName
+                fileName: item.fileName,
+                details: item
             };
             if (host) {
                 host.sendToHost(JSON.stringify(msg));
@@ -128,9 +133,9 @@ class CentaurPODtransfers {
             return;
         }
         var str = "<x>" +
-            "<PARAM0>" + parameters.username +
+            "<PARAM0>" + this.username +
             "</PARAM0>" +
-            "<PARAM1>" + parameters.password +
+            "<PARAM1>" + this.password +
             "</PARAM1></x>";
         $.post(this.x2State.url + ".autologin", str, {
             crossDomain: true,
@@ -142,10 +147,14 @@ class CentaurPODtransfers {
             if (!this.x2State.uuid)
                 this.x2State.uuid = $(result).find("[uuid]").attr("uuid");
             if (this.x2State.uuid) {
-                $("#sessionStatus").html("Connected");
+                if (this.$div){
+                    $("#sessionStatus").html("Connected");
+                }
                 cb();
             } else {
-                $("#sessionStatus").html("Login failed");
+                if (this.$div){
+                    $("#sessionStatus").html("Login failed");
+                }
                 onFail("Invalid login");
             }
         })
@@ -189,9 +198,11 @@ class CentaurPODtransfers {
             newClass = "half empty green";
             request.statusMessage = "in transit";
         }
-        $("#" + request.id + "_status").html("(" + request.statusMessage + ")");
-        if (newClass)
-            $("#" + request.id + "_icon").removeClass().addClass("icon star " + newClass);
+        if (this.$div){
+            $("#" + request.id + "_status").html("(" + request.statusMessage + ")");
+            if (newClass)
+                $("#" + request.id + "_icon").removeClass().addClass("icon star " + newClass);
+        }
     }
     /**
     * Starts the background transfers
