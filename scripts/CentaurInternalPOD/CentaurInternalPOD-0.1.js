@@ -5,31 +5,40 @@
 */
 console.log("Centaur internal POD loaded");
 function InternalPOD(){
+  constructor(){
+    this.instances = {};
+  }
   /**
   * Create an instance of this plugin
   */
   this.createInstance = function(opts){
-    return {
+    this.instances[opts.name] = instance = {
       name: opts.name,
       centaurUserName: '',
       centaurPassword: '',
       centaurHost: '',
       centaurScript: ''
     };
+    if (typeof scanner != 'undefined'){
+      // index.js - Background transfers
+      instance.transfers = new this.Transfers({
+        hostController: scanner,
+        instance: instance
+      });
+    }
+    return instance;
   };
-  if (location.href.indexOf("config.html") > -1){
-    // Runnign in the Configuration page within the app
-    this.configurationUI = new InternalPOD.prototype.Config();
-  }
+  
   if (typeof scanner != 'undefined'){
-    // index.js - Background transfers
-    scanner.on('signatureTransfer', (ev)=>{
-      console.log("Centaur POD processing");
-      console.dir(ev);
-    });
     // Start processing PODs
     scanner.synchronize();
   }
+  
+  if (location.href.indexOf("config.html") > -1){
+    // Running in the Configuration page within the app
+    this.configurationUI = new InternalPOD.prototype.Config();
+  }
+  
   if (typeof signatureCapture != 'undefined'){
     // index.js - Background transfers
     signatureCapture.on('storeSignature', (ev)=>{
@@ -38,6 +47,35 @@ function InternalPOD(){
     });
   }
 }
+
+/**
+* Background transfers
+*/
+InternalPOD.prototype.Transfers = function(opts){
+  let scanner = opts.hostController;
+  let instance = opts.instance;
+  //let plugin = opts.plugin;
+  // CentaurPODtransfers is in centaurTransfers-0.1.js
+  let comms = new CentaurPODtransfers({
+    username: instance.centaurUsername,
+    password: instance.centaurPassword,
+    host: instance.centaurHost,
+    script: instance.centaurScript
+  });
+  
+  /**
+  * Fired from the app for background transfers
+  */
+  scanner.on('signatureTransfer', (ev)=>{
+    console.log("Centaur POD processing");
+    console.dir(ev);
+    ev.inProgress = true;
+    comms.add(ev.data);
+    scanner.fire('TRANSFER_COMPLETE', {
+      fileEntry: ev.fileEntry
+    });
+  });
+};
 
 /**
 * Config is used only in the configuration page
@@ -71,6 +109,8 @@ InternalPOD.prototype.Config = function(){
   this.saveOptions = function(instance){
       instance.centaurHost = $("#centaurHost").val();
       instance.centaurScript = $("#centaurScript").val();
+      instance.centaurUserName = $("#centaurUserName").val();
+      instance.centaurPassword = $("#centaurPassword").val();
       $T.pluginManagement.config.savePlugins();
   };
   
