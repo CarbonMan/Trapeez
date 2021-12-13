@@ -5,9 +5,8 @@
 */
 console.log("Centaur internal POD loaded");
 function InternalPOD(){
-  constructor(){
-    this.instances = {};
-  }
+  this.instances = {};
+
   /**
   * Create an instance of this plugin
   */
