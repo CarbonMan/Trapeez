@@ -30,7 +30,9 @@ function InternalPOD(){
   
   if (typeof scanner != 'undefined'){
     // Start processing PODs
-    scanner.synchronize();
+    setTimeout(()=>{
+      scanner.synchronize();
+    },0);
   }
   
   if (location.href.indexOf("config.html") > -1){
