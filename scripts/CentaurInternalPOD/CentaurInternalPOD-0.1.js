@@ -71,10 +71,12 @@ InternalPOD.prototype.Transfers = function(opts){
     console.log("Centaur POD processing");
     console.dir(ev);
     ev.inProgress = true;
+    ev.done = ()=>{
+      scanner.fire('TRANSFER_COMPLETE', {
+        fileEntry: ev.fileEntry
+      });
+    };
     comms.add(ev.data);
-    scanner.fire('TRANSFER_COMPLETE', {
-      fileEntry: ev.fileEntry
-    });
   });
 };
 
