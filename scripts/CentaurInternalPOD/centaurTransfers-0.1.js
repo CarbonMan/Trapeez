@@ -51,7 +51,8 @@ class CentaurPODtransfers {
                 reference: request.zones[0].value,
                 signed: request.image,
                 mimeType: "image/jpeg",
-                dt: this.getISOdate()
+                dt: this.getISOdate(),
+                done: request.done
             };
             this.loggedIn(docDetails);
         }, this.loginFailed);
@@ -98,9 +99,8 @@ class CentaurPODtransfers {
             };
             if (host) {
                 host.sendToHost(JSON.stringify(msg));
-            } else {
-                let ev = new CustomEvent('TRANSFER_COMPLETE', msg);
-                window.dispatchEvent(ev);
+            } else if (rq.done){
+                rq.done();
             }
             // Do the next pending POD
             this.bufferPtr++;
