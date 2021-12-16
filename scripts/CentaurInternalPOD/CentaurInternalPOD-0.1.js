@@ -76,6 +76,11 @@ InternalPOD.prototype.Transfers = function(opts){
         fileEntry: ev.fileEntry
       });
     };
+    ev.data.error = (err)=>{
+      scanner.fire('TRANSFER_ERROR', {
+        message: err
+      });
+    };
     comms.add(ev.data);
   });
 };
