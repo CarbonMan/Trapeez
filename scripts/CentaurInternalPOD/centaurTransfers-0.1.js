@@ -37,7 +37,7 @@ class CentaurPODtransfers {
             this.bufferPtr++;
             if (this.bufferPtr == this.scanBuffer.length)
                 this.bufferPtr = 0;
-            this.to = setTimeout(this.transfer, 1000);
+            this.to = setTimeout(()=>{this.transfer()}, 1000);
             return;
         }
         request.startingTransfer = true;
@@ -61,7 +61,7 @@ class CentaurPODtransfers {
 
     loginFailed(e) {
         console.log(e);
-        this.to = setTimeout(this.transfer, 1000);
+        this.to = setTimeout(()=>{this.transfer()}, 1000);
     }
     /**
      * App is logged in and the transfer can start transfers
@@ -108,7 +108,7 @@ class CentaurPODtransfers {
             if (this.bufferPtr >= this.scanBuffer.length)
                 this.bufferPtr = 0;
             // Pause for 1 second to not overload the server
-            this.to = setTimeout(this.transfer, 1000);
+            this.to = setTimeout(()=>{this.transfer()}, 1000);
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             var req = this.scanBuffer[this.bufferPtr];
@@ -116,7 +116,7 @@ class CentaurPODtransfers {
             req.transferFailed = true;
             this.setDisplayState(req);
             // Try again
-            this.to = setTimeout(this.transfer, 1000);
+            this.to = setTimeout(()=>{this.transfer()}, 1000);
         });
     }
 
@@ -163,7 +163,7 @@ class CentaurPODtransfers {
             console.log("Error during login");
             if (onFail)
                 onFail(jqXHR);
-            //this.to = setTimeout(transfer, 1000);
+            //this.to = setTimeout(()=>{this.transfer()}, 1000);
         });
     }
   
@@ -210,7 +210,7 @@ class CentaurPODtransfers {
     */
     startTransfers() {
         clearTimeout(this.to);
-        this.to = setTimeout(this.transfer, 1000);
+        this.to = setTimeout(()=>{this.transfer()}, 1000);
     }
 
 }
