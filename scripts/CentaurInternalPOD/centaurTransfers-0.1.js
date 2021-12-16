@@ -42,6 +42,7 @@ class CentaurPODtransfers {
         }
         request.startingTransfer = true;
         this.setDisplayState(request);
+        let me = this;
         this.login(function () {
             // docDetails is intercepted by the POD upload route on the server
             // and a message constructed to the application.
@@ -55,8 +56,8 @@ class CentaurPODtransfers {
                 dt: this.getISOdate(),
                 done: request.done
             };
-            this.loggedIn(docDetails);
-        }, this.loginFailed);
+            me.loggedIn(docDetails);
+        }, this.loginFailed.bind(this));
     }
 
     loginFailed(e) {
