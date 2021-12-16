@@ -57,13 +57,23 @@ class CentaurPODtransfers {
                 done: request.done
             };
             me.loggedIn(docDetails);
-        }, this.loginFailed.bind(this));
+        }, (e)=>{ this.loginFailed.call(this, e, docDetails);});
     }
-
-    loginFailed(e) {
+    
+    /**
+    * Login failed 
+    */
+    loginFailed(e, rq) {
         console.log(e);
+        if (rq.error){ 
+            rq.error("Login failed"); 
+        }
+        // Continue to try, if it was a server fault then it will just resume
+        // when the problem is resolved.
         this.to = setTimeout(()=>{this.transfer()}, 1000);
+        
     }
+    
     /**
      * App is logged in and the transfer can start transfers
      */
@@ -116,7 +126,11 @@ class CentaurPODtransfers {
             req.startingTransfer = false;
             req.transferFailed = true;
             this.setDisplayState(req);
-            // Try again
+            if (rq.error){ 
+                rq.error("Login failed"); 
+            }
+            // Continue to try, if it was a server fault then it will just resume
+            // when the problem is resolved.
             this.to = setTimeout(()=>{this.transfer()}, 1000);
         });
     }
