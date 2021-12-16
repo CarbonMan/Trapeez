@@ -57,7 +57,7 @@ class CentaurPODtransfers {
                 done: request.done
             };
             me.loggedIn(docDetails);
-        }, (e)=>{ this.loginFailed.call(this, e, docDetails);});
+        }, (e)=>{ this.loginFailed.call(this, e, request);});
     }
     
     /**
