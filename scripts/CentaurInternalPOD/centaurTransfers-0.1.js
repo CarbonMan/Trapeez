@@ -22,6 +22,7 @@ class CentaurPODtransfers {
      */
     add(opts) {
         this.scanBuffer.push(opts);
+        this.startTransfers();
     }
     /**
      * Attempt to transfer POD
