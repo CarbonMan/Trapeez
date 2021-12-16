@@ -21,7 +21,7 @@ class CentaurPODtransfers {
      * Add a job to be transfered.
      */
     add(opts) {
-        this.scanBuffer.push(opts.request);
+        this.scanBuffer.push(opts);
     }
     /**
      * Attempt to transfer POD
