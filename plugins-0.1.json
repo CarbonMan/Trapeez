@@ -4,7 +4,7 @@
             "category": "Server",
             "name": "Centaur internal POD",
             "type": "serverComms",
-            "version": "0.2",
+            "version": "0.3",
             "infLocation": "scripts/CentaurInternalPOD/CentaurInternalPOD-INF-0.1.json"
         }
     ]
