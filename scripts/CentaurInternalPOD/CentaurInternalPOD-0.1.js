@@ -119,7 +119,6 @@ InternalPOD.prototype.Config = function(){
       instance.centaurScript = $("#centaurScript").val();
       instance.centaurUserName = $("#centaurUserName").val();
       instance.centaurPassword = $("#centaurPassword").val();
-      $T.pluginManagement.savePlugins();
   };
   
 };
