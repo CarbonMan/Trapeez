@@ -14,7 +14,7 @@ function InternalPOD(){
     // If the instance has been saved, then it will exist
     this.instances[opts.name] = instance = Object.assign({
       name: opts.name,
-      centaurUserName: '',
+      centaurUsername: '',
       centaurPassword: '',
       centaurHost: '',
       centaurScript: ''
@@ -98,7 +98,7 @@ InternalPOD.prototype.Config = function(){
   this.options = function($div, instance){
     let settings = `<div class="field">
         <label>Username</label>
-        <input type="text" class="instanceForm" id="centaurUserName" placeholder="user name" value="${instance.centaurUserName || ''}">
+        <input type="text" class="instanceForm" id="centaurUserName" placeholder="user name" value="${instance.centaurUsername || ''}">
       </div><div class="field">
         <label>Password</label>
         <input type="text" class="instanceForm" id="centaurPassword" placeholder="password" value="${instance.centaurPassword || ''}">
@@ -118,7 +118,7 @@ InternalPOD.prototype.Config = function(){
   this.saveOptions = function(instance){
       instance.centaurHost = $("#centaurHost").val();
       instance.centaurScript = $("#centaurScript").val();
-      instance.centaurUserName = $("#centaurUserName").val();
+      instance.centaurUsername = $("#centaurUsername").val();
       instance.centaurPassword = $("#centaurPassword").val();
   };
   
