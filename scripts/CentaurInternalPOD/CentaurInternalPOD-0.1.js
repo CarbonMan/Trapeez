@@ -11,13 +11,14 @@ function InternalPOD(){
   * Create an instance of this plugin
   */
   this.createInstance = function(opts){
-    this.instances[opts.name] = instance = {
+    // If the instance has been saved, then it will exist
+    this.instances[opts.name] = instance = Object.assign({
       name: opts.name,
       centaurUserName: '',
       centaurPassword: '',
       centaurHost: '',
       centaurScript: ''
-    };
+    }, this.instances[opts.name]);
     if (typeof scanner != 'undefined'){
       // index.js - Background transfers
       instance.transfers = new this.Transfers({
