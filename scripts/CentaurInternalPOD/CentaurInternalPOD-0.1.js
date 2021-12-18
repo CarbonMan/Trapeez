@@ -98,7 +98,7 @@ InternalPOD.prototype.Config = function(){
   this.options = function($div, instance){
     let settings = `<div class="field">
         <label>Username</label>
-        <input type="text" class="instanceForm" id="centaurUserName" placeholder="user name" value="${instance.centaurUsername || ''}">
+        <input type="text" class="instanceForm" id="centaurUsername" placeholder="user name" value="${instance.centaurUsername || ''}">
       </div><div class="field">
         <label>Password</label>
         <input type="text" class="instanceForm" id="centaurPassword" placeholder="password" value="${instance.centaurPassword || ''}">
