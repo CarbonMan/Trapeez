@@ -156,7 +156,7 @@ class CentaurPODtransfers {
         $.post(this.x2State.url + ".autologin", str, {
             crossDomain: true,
             dataType: "xml",
-            contentType: "application/xml"
+            contentType: "application/text; charset=utf-8"
         })
         .done(function (result) {
             this.x2State.uuid = $(result).attr("uuid");
