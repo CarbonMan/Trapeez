@@ -78,24 +78,27 @@ class CentaurPODtransfers {
      * App is logged in and the transfer can start transfers
      */
     loggedIn(rq) {
-        $.post(this.x2State.host + "/" + this.x2State.script + "/api/pod", rq, {
+        let me = this;
+        $.ajax({
+            url: me.x2State.host + "/" + me.x2State.script + "/api/pod", 
+            data: rq,
             crossDomain: true,
             dataType: "xml"
         })
         .done(function (rsp) {
             if (rsp == "<x2><ERROR><DESCRIPTION>Invalid booking number</DESCRIPTION></ERROR></x2>") {
                 alert(rq.reference + " is an invalid booking number");
-                for (var r = 0; r < this.scanBuffer.length; r++) {
-                    if (this.scanBuffer[r].id = rq.id) {
-                        this.scanBuffer[r].reviewed = false;
+                for (var r = 0; r < me.scanBuffer.length; r++) {
+                    if (me.scanBuffer[r].id = rq.id) {
+                        me.scanBuffer[r].reviewed = false;
                         return;
                     }
                 }
             }
 
             // Remove from pending
-            var item = this.scanBuffer.splice(this.bufferPtr, 1)[0];
-            if (this.$div){
+            var item = me.scanBuffer.splice(this.bufferPtr, 1)[0];
+            if (me.$div){
                 if (currentEditId == rq.id) {
                     $("#inputFields").empty();
                     $("#inputDiv").hide();
@@ -115,23 +118,23 @@ class CentaurPODtransfers {
                 rq.done();
             }
             // Do the next pending POD
-            this.bufferPtr++;
-            if (this.bufferPtr >= this.scanBuffer.length)
-                this.bufferPtr = 0;
+            me.bufferPtr++;
+            if (me.bufferPtr >= me.scanBuffer.length)
+                me.bufferPtr = 0;
             // Pause for 1 second to not overload the server
-            this.to = setTimeout(()=>{this.transfer()}, 1000);
+            me.to = setTimeout(()=>{me.transfer()}, 1000);
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
-            var req = this.scanBuffer[this.bufferPtr];
+            var req = me.scanBuffer[this.bufferPtr];
             req.startingTransfer = false;
             req.transferFailed = true;
-            this.setDisplayState(req);
+            me.setDisplayState(req);
             if (rq.error){ 
                 rq.error("Login failed"); 
             }
             // Continue to try, if it was a server fault then it will just resume
             // when the problem is resolved.
-            this.to = setTimeout(()=>{this.transfer()}, 1000);
+            me.to = setTimeout(()=>{me.transfer()}, 1000);
         });
     }
 
@@ -144,7 +147,8 @@ class CentaurPODtransfers {
     }
 
     login(cb, onFail) {
-        if (this.x2State.uuid) {
+        let me = this;
+        if (me.x2State.uuid) {
             cb();
             return;
         }
@@ -154,7 +158,7 @@ class CentaurPODtransfers {
             "<PARAM1>" + this.password +
             "</PARAM1></x>";
         $.ajax({
-            url: this.x2State.url + ".autologin",
+            url: me.x2State.url + ".autologin",
             type: "POST",
             data: str,
             crossDomain: true,
@@ -162,16 +166,16 @@ class CentaurPODtransfers {
             contentType: "application/text; charset=utf-8"
         })
         .done(function (result) {
-            this.x2State.uuid = $(result).attr("uuid");
-            if (!this.x2State.uuid)
-                this.x2State.uuid = $(result).find("[uuid]").attr("uuid");
-            if (this.x2State.uuid) {
-                if (this.$div){
+            me.x2State.uuid = $(result).attr("uuid");
+            if (!me.x2State.uuid)
+                me.x2State.uuid = $(result).find("[uuid]").attr("uuid");
+            if (me.x2State.uuid) {
+                if (me.$div){
                     $("#sessionStatus").html("Connected");
                 }
                 cb();
             } else {
-                if (this.$div){
+                if (me.$div){
                     $("#sessionStatus").html("Login failed");
                 }
                 onFail("Invalid login");
@@ -181,7 +185,6 @@ class CentaurPODtransfers {
             console.log("Error during login");
             if (onFail)
                 onFail(jqXHR);
-            //this.to = setTimeout(()=>{this.transfer()}, 1000);
         });
     }
   
