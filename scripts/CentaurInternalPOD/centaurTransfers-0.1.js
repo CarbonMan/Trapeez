@@ -153,7 +153,10 @@ class CentaurPODtransfers {
             "</PARAM0>" +
             "<PARAM1>" + this.password +
             "</PARAM1></x>";
-        $.post(this.x2State.url + ".autologin", str, {
+        $.ajax({
+            url: this.x2State.url + ".autologin",
+            type: "POST",
+            data: str,
             crossDomain: true,
             dataType: "xml",
             contentType: "application/text; charset=utf-8"
