@@ -166,9 +166,15 @@ class CentaurPODtransfers {
             contentType: "application/text; charset=utf-8"
         })
         .done(function (result) {
-            me.x2State.uuid = $(result).attr("uuid");
+            let $r = $(result);
+            if ( $r.children.length && $r.children(0).prop("tagName").toLowerCase()=='error' ){
+                if (onFail)
+                    onFail($r.children(0).children(0).html());
+            }else{
+                me.x2State.uuid = $r.attr("uuid");
+            }
             if (!me.x2State.uuid)
-                me.x2State.uuid = $(result).find("[uuid]").attr("uuid");
+                me.x2State.uuid = $r.find("[uuid]").attr("uuid");
             if (me.x2State.uuid) {
                 if (me.$div){
                     $("#sessionStatus").html("Connected");
