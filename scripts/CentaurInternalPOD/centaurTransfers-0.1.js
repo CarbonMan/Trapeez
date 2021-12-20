@@ -28,36 +28,36 @@ class CentaurPODtransfers {
      * Attempt to transfer POD
      */
     transfer() {
-        clearTimeout(this.to);
-        if (!this.scanBuffer.length) {
+        let me = this;
+        clearTimeout(me.to);
+        if (!me.scanBuffer.length) {
             return;
         }
-        var request = this.scanBuffer[this.bufferPtr];
-        if (request.invalidFormat || (this.requireReviews && !request.reviewed)) {
-            this.bufferPtr++;
-            if (this.bufferPtr == this.scanBuffer.length)
-                this.bufferPtr = 0;
-            this.to = setTimeout(()=>{this.transfer()}, 1000);
+        var request = me.scanBuffer[me.bufferPtr];
+        if (request.invalidFormat || (me.requireReviews && !request.reviewed)) {
+            me.bufferPtr++;
+            if (me.bufferPtr == me.scanBuffer.length)
+                me.bufferPtr = 0;
+            me.to = setTimeout(()=>{me.transfer()}, 1000);
             return;
         }
         request.startingTransfer = true;
-        this.setDisplayState(request);
-        let me = this;
-        this.login(function () {
+        me.setDisplayState(request);
+        me.login(function () {
             // docDetails is intercepted by the POD upload route on the server
             // and a message constructed to the application.
             var docDetails = {
-                uuid: this.x2State.uuid,
+                uuid: me.x2State.uuid,
                 process: 'driverPDAinterface.setStatus',
                 id: request.id,
                 reference: request.zones[0].value,
                 signed: request.image,
                 mimeType: "image/jpeg",
-                dt: this.getISOdate(),
+                dt: me.getISOdate(),
                 done: request.done
             };
             me.loggedIn(docDetails);
-        }, (e)=>{ this.loginFailed.call(this, e, request);});
+        }, (e)=>{ me.loginFailed.call(me, e, request);});
     }
     
     /**
