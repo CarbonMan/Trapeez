@@ -163,7 +163,7 @@ class CentaurPODtransfers {
             data: str,
             crossDomain: true,
             dataType: "xml",
-            contentType: "application/text; charset=utf-8"
+            contentType: "application/xml"
         })
         .done(function (result) {
             let $r = $(result);
