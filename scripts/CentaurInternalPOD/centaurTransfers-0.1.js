@@ -113,7 +113,8 @@ class CentaurPODtransfers {
                 fileName: item.fileName,
                 details: item
             };
-            if (host) {
+            if (typeof host!='undefined') {
+                // Running within IOTkeys
                 host.sendToHost(JSON.stringify(msg));
             } else if (rq.done){
                 rq.done();
