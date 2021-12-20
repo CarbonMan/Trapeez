@@ -51,7 +51,7 @@ class CentaurPODtransfers {
                 process: 'driverPDAinterface.setStatus',
                 id: request.id,
                 reference: request.zones[0].value,
-                signed: request.image,
+                signed: request.img,
                 mimeType: "image/jpeg",
                 dt: me.getISOdate(),
                 done: request.done
@@ -177,6 +177,7 @@ class CentaurPODtransfers {
             if (!me.x2State.uuid)
                 me.x2State.uuid = $r.find("[uuid]").attr("uuid");
             if (me.x2State.uuid) {
+                console.log('Log in successful');
                 if (me.$div){
                     $("#sessionStatus").html("Connected");
                 }
