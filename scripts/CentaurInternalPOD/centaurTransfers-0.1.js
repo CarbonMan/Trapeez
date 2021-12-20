@@ -81,6 +81,7 @@ class CentaurPODtransfers {
         let me = this;
         $.ajax({
             url: me.x2State.host + "/" + me.x2State.script + "/api/pod", 
+            type: 'POST',
             data: rq,
             crossDomain: true,
             dataType: "xml"
