@@ -9,5 +9,6 @@ function CentaurProject(){
 }
 
 document.addEventListener('CENTAUR_POD_READY', function (e) {
+  console.log('Centaur project added');
   e.detail.project = new CentaurProject();
 }, false);
