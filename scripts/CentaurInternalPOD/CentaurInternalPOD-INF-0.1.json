@@ -1,6 +1,7 @@
 {
     "components": [
         "scripts/CentaurInternalPOD/centaurTransfers-0.1.js",
+        "scripts/CentaurInternalPOD/CentaurProject-0.1.js",
         "scripts/CentaurInternalPOD/CentaurInternalPOD-0.1.js"
     ],
     "config": {
@@ -12,5 +13,5 @@
             "save": []
         }
     },
-    "version": "0.9.9"
+    "version": "0.1.0"
 }
