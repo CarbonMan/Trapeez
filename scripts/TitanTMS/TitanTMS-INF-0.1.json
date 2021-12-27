@@ -1,0 +1,15 @@
+{
+    "components": [
+        "scripts/TitanTMS/TitanProject-0.1.js"
+    ],
+    "config": {
+        "disabled": false,
+        "name*": "Titan Transport Management",
+        "helpUrl": "https://htmlpreview.github.io/?https://github.com/CarbonMan/IoTKeys/blob/master/scripts/TitanTMS/help/help-0.1.html",
+        "process": {
+            "scan": [],
+            "save": []
+        }
+    },
+    "version": "0.0.1"
+}
