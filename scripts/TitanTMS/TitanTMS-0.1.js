@@ -124,4 +124,4 @@ TitanTMS.prototype.Config = function(){
   
 };
 
-$T.pluginManagement.register('Centaur_I_POD', new TitanTMS());
+$T.pluginManagement.register('TitanTMS', new TitanTMS());
