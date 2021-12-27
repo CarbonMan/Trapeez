@@ -8,7 +8,7 @@
             "infLocation": "scripts/CentaurInternalPOD/CentaurInternalPOD-INF-0.1.json"
         },
         {
-            "id": "Titan",
+            "id": "TitanTMS",
             "category": "Server",
             "name": "Titan Transport Management",
             "type": "serverComms",
