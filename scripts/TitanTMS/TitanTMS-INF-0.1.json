@@ -1,6 +1,7 @@
 {
     "components": [
-        "scripts/TitanTMS/TitanProject-0.1.js"
+        "scripts/TitanTMS/TitanProject-0.1.js",
+        "scripts/TitanTMS/TitanTMS-0.1.js"
     ],
     "config": {
         "disabled": false,
