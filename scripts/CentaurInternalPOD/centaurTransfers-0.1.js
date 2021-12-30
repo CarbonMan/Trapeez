@@ -107,14 +107,14 @@ class CentaurPODtransfers {
                 // Remove from the list
                 $("#" + item.id).remove();
             }
-            // Tell the host to remove the image file
-            var msg = {
-                type: "delete",
-                fileName: item.fileName,
-                details: item
-            };
             if (typeof host!='undefined') {
                 // Running within IOTkeys
+                // Tell the host to remove the image file
+                var msg = {
+                    type: "delete",
+                    fileName: item.fileName,
+                    details: item
+                };
                 host.sendToHost(JSON.stringify(msg));
             } else if (rq.done){
                 rq.done();
