@@ -114,6 +114,7 @@ TitanTMS.prototype.Config = function(){
 
   /**
   * Called by the app when the user clicks save
+  * @argument {*} instance - Plugin instance
   */
   this.saveOptions = function(instance){
       instance.titanHost = $("#titanHost").val();
