@@ -12,7 +12,7 @@
             "category": "Server",
             "name": "Titan Transport Management",
             "type": "serverComms",
-            "version": "0.1",
+            "version": "0.2",
             "infLocation": "scripts/TitanTMS/TitanTMS-INF-0.1.json"
         }
     ]
