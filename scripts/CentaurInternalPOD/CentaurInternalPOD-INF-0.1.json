@@ -1,5 +1,7 @@
 {
     "components": [
+        "scripts/x2/x2-0.1.js",
+        "scripts/x2/auth-0.1.js",
         "scripts/CentaurInternalPOD/centaurTransfers-0.1.js",
         "scripts/CentaurInternalPOD/CentaurProject-0.1.js",
         "scripts/CentaurInternalPOD/CentaurInternalPOD-0.1.js"

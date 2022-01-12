@@ -1,9 +1,11 @@
 var assert = require('assert');
 var sinon = require('sinon');
 
-window = typeof window == 'undefined' ?  {}:window;
+var window = typeof window == 'undefined' ? {} : window,
+  localStorage, sessionStorage;
 
-beforeEach(() => {
+before(() => {
+  //console.log("storageMock");
   // Storage Mock
   function storageMock() {
     let storage = {};
@@ -28,9 +30,9 @@ beforeEach(() => {
     };
   }
   // mock the localStorage
-  window.localStorage = storageMock();
+  window.localStorage = localStorage = storageMock();
   // mock the sessionStorage
-  window.sessionStorage = storageMock();
+  window.sessionStorage = sessionStorage = storageMock();
 
   // localStore = {};
 
@@ -43,10 +45,15 @@ beforeEach(() => {
   // spyOn(window.localStorage, 'clear').and.callFake(() => (localStore = {}));
 });
 
-describe('Array', function () {
-  describe('#indexOf()', function () {
-    it('should return -1 when the value is not present', function () {
-      assert.equal([1, 2, 3].indexOf(4), -1);
+describe('Local storage mocking', function () {
+  describe('setItem', function () {
+    it('should store a value', function () {
+      localStorage.setItem("Test", "0");
+      assert.equal(localStorage.getItem("Test"), "0");
     });
   });
 });
+
+module.exports = {
+  window
+};

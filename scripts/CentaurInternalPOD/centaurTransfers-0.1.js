@@ -43,7 +43,8 @@ class CentaurPODtransfers {
         }
         request.startingTransfer = true;
         me.setDisplayState(request);
-        me.login(function () {
+        x2.login()
+        .then( ()=>{
             // docDetails is intercepted by the POD upload route on the server
             // and a message constructed to the application.
             var docDetails = {
@@ -58,7 +59,10 @@ class CentaurPODtransfers {
                 done: request.done
             };
             me.loggedIn(docDetails);
-        }, (e)=>{ me.loginFailed.call(me, e, request);});
+        })
+        .catch((e)=>{ 
+            me.loginFailed.call(me, e, request);
+        });
     }
     
     /**
@@ -149,54 +153,6 @@ class CentaurPODtransfers {
                  + "-" + dt.getDate() + " " + dt.getHours() + ":" + dt.getMinutes();
     }
 
-    login(cb, onFail) {
-        let me = this;
-        if (me.x2State.uuid) {
-            cb();
-            return;
-        }
-        var str = "<x>" +
-            "<PARAM0>" + this.username +
-            "</PARAM0>" +
-            "<PARAM1>" + this.password +
-            "</PARAM1></x>";
-        $.ajax({
-            url: me.x2State.url + ".autologin",
-            type: "POST",
-            data: str,
-            crossDomain: true,
-            dataType: "xml",
-            contentType: "application/xml"
-        })
-        .done(function (result) {
-            let $r = $(result);
-            if ( $r.children.length && $r.children(0).prop("tagName").toLowerCase()=='error' ){
-                if (onFail)
-                    onFail($r.children(0).children(0).html());
-            }else{
-                me.x2State.uuid = $r.attr("uuid");
-            }
-            if (!me.x2State.uuid)
-                me.x2State.uuid = $r.find("[uuid]").attr("uuid");
-            if (me.x2State.uuid) {
-                console.log('Log in successful');
-                if (me.$div){
-                    $("#sessionStatus").html("Connected");
-                }
-                cb();
-            } else {
-                if (me.$div){
-                    $("#sessionStatus").html("Login failed");
-                }
-                onFail("Invalid login");
-            }
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            console.log("Error during login");
-            if (onFail)
-                onFail(jqXHR);
-        });
-    }
   
     /**
     * If a display is being used this will update the 
