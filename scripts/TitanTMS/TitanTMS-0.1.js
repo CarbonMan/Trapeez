@@ -36,6 +36,11 @@ function TitanTMS(){
     },0);
   }
   
+  if (location.href.indexOf("index.html") > -1){
+    // Running in the Configuration page within the app
+    this.pageController = new this.HomePage();
+  }
+  
   if (location.href.indexOf("config.html") > -1){
     // Running in the Configuration page within the app
     this.configurationUI = new InternalPOD.prototype.Config();
@@ -85,6 +90,26 @@ TitanTMS.prototype.Transfers = function(opts){
     comms.add(ev.data);
   });
 };
+
+TitanTMS.prototype.HomePage = function(){
+  document.addEventListener('LOAD_PLUGIN_ACTIONS', (ev)=>{
+    let $btn = $("<button id='loadManifests'>MANIFESTS</button>");
+    $btn.click(()=>{
+      console.log("Load manifests");
+    });
+    if (ev.$actionsDiv.html()){
+      ev.$actionsDiv.append("<br>");
+    }
+    ev.$actionsDiv.append($btn);
+    x2.getActiveManifests()
+    .then((manifests)=>{
+
+    })
+    .catch(e=>{
+      console.error(e);
+    });
+  })
+}
 
 /**
 * Config is used only in the configuration page

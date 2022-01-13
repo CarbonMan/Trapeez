@@ -44,11 +44,11 @@ class CentaurPODtransfers {
         request.startingTransfer = true;
         me.setDisplayState(request);
         x2.login()
-        .then( ()=>{
+        .then( (uuid)=>{
             // docDetails is intercepted by the POD upload route on the server
             // and a message constructed to the application.
             var docDetails = {
-                uuid: me.x2State.uuid,
+                uuid,
                 process: 'driverPDAinterface.setStatus',
                 id: request.id,
                 reference: request.reference,

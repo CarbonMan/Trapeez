@@ -2,7 +2,7 @@ X2.prototype.login = function (cb, onFail) {
     return new Promise((resolve, reject) => {
         let me = this;
         if (me.x2State.uuid) {
-            resolve();
+            resolve(me.x2State.uuid);
             return;
         }
         var str = "<x>" +
@@ -32,7 +32,7 @@ X2.prototype.login = function (cb, onFail) {
                     if (me.$div) {
                         $("#sessionStatus").html("Connected");
                     }
-                    resolve();
+                    resolve(me.x2State.uuid);
                 } else {
                     if (me.$div) {
                         $("#sessionStatus").html("Login failed");
