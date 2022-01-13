@@ -43,7 +43,7 @@ function TitanTMS(){
   
   if (location.href.indexOf("config.html") > -1){
     // Running in the Configuration page within the app
-    this.configurationUI = new InternalPOD.prototype.Config();
+    this.configurationUI = new this.Config();
   }
   
   if (typeof signatureCapture != 'undefined'){
