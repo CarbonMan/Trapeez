@@ -1,7 +1,7 @@
 /**
  * Manages background transfers with Centaur servers
  */
-class CentaurPODtransfers {
+class PODtransfers {
     constructor(opts) {
         this.x2State = {
             uuid: "",

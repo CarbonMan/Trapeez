@@ -63,7 +63,7 @@ function TitanTMS(){
 TitanTMS.prototype.Transfers = function(opts){
   let scanner = opts.hostController;
   let instance = opts.instance;
-  let comms = new TitanTMStransfers({
+  let comms = new PODtransfers({
     username: instance.titanUsername,
     password: instance.titanPassword,
     host: instance.titanHost,

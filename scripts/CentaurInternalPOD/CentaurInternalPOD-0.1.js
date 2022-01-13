@@ -59,7 +59,7 @@ InternalPOD.prototype.Transfers = function(opts){
   let scanner = opts.hostController;
   let instance = opts.instance;
   // CentaurPODtransfers is in centaurTransfers-0.1.js
-  let comms = new CentaurPODtransfers({
+  let comms = new PODtransfers({
     username: instance.centaurUsername,
     password: instance.centaurPassword,
     host: instance.centaurHost,

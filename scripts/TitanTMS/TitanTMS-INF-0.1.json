@@ -2,6 +2,7 @@
     "components": [
         "scripts/x2/x2-0.1.js",
         "scripts/x2/auth-0.1.js",
+        "scripts/x2/PODtransfers-0.1.js",
         "scripts/TitanTMS/TitanProject-0.1.js",
         "scripts/TitanTMS/TitanTMS-0.1.js"
     ],
@@ -14,5 +15,5 @@
             "save": []
         }
     },
-    "version": "0.0.2"
+    "version": "0.0.3"
 }
