@@ -1,7 +1,7 @@
 function TitanProject(){
   document.addEventListener('LOAD_PLUGIN_ACTIONS', function (ev) {
     // Attach a POD action onto the actions combobox
-    ev.detail.push({
+    ev.detail.actions.push({
       name: "MANIFEST NOTES",
       value: "MANIFESTNOTES"
     });

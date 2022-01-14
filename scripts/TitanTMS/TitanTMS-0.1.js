@@ -97,10 +97,11 @@ TitanTMS.prototype.HomePage = function(){
     $btn.click(()=>{
       console.log("Load manifests");
     });
-    if (ev.$actionsDiv.html()){
-      ev.$actionsDiv.append("<br>");
+    let $d = ev.actions.$actionsDiv;
+    if ($d.html()){
+      $d.append("<br>");
     }
-    ev.$actionsDiv.append($btn);
+    $d.append($btn);
     x2.getActiveManifests()
     .then((manifests)=>{
 
