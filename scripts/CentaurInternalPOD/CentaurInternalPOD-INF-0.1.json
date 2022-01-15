@@ -1,11 +1,15 @@
 {
-    "components": [
-        "scripts/x2/x2-0.1.js",
-        "scripts/x2/auth-0.1.js",
-        "scripts/x2/PODtransfers-0.1.js",
-        "scripts/CentaurInternalPOD/CentaurProject-0.1.js",
-        "scripts/CentaurInternalPOD/CentaurInternalPOD-0.1.js"
-    ],
+    "components": {
+        "library": [
+            "scripts/x2/x2-0.1.js",
+            "scripts/x2/auth-0.1.js",
+            "scripts/x2/PODtransfers-0.1.js"
+        ],
+        "plugin": [
+            "scripts/CentaurInternalPOD/CentaurProject-0.1.js",
+            "scripts/CentaurInternalPOD/CentaurInternalPOD-0.1.js"
+        ]
+    },
     "config": {
         "disabled": false,
         "name*": "Centaur Internal POD",

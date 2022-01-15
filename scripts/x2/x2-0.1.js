@@ -10,5 +10,6 @@ class X2{
 }
 
 setTimeout(()=>{
+    console.log('Initializing x2');1
     x2 = new X2();
 },0);
