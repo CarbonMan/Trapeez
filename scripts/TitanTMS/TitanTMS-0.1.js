@@ -97,7 +97,7 @@ TitanTMS.prototype.HomePage = function(){
     $btn.click(()=>{
       console.log("Load manifests");
     });
-    let $d = ev.actions.$actionsDiv;
+    let $d = ev.detail.$actionsDiv;
     if ($d.html()){
       $d.append("<br>");
     }
