@@ -5,16 +5,14 @@
             "category": "Server",
             "name": "Centaur internal POD",
             "type": "serverComms",
-            "version": "0.3",
-            "infLocation": "scripts/CentaurInternalPOD/CentaurInternalPOD-INF-0.1.json"
+            "infLocation": "scripts/CentaurInternalPOD/CentaurInternalPOD-INF.json"
         },
         {
             "id": "TitanTMS",
             "category": "Server",
             "name": "Titan Transport Management",
             "type": "serverComms",
-            "version": "0.2",
-            "infLocation": "scripts/TitanTMS/TitanTMS-INF-0.1.json"
+            "infLocation": "scripts/TitanTMS/TitanTMS-INF.json"
         }
     ]
 }
