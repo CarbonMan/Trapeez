@@ -1,9 +1,12 @@
-X2.prototype.login = function (cb, onFail) {
+X2.prototype.login = function () {
     return new Promise((resolve, reject) => {
         let me = this;
         if (me.x2State.uuid) {
             resolve(me.x2State.uuid);
             return;
+        }
+        if (!this.username || !this.password){
+            reject('No credentials');
         }
         var str = "<x>" +
             "<PARAM0>" + this.username +

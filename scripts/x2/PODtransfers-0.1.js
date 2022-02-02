@@ -16,6 +16,7 @@ class PODtransfers {
         this.$div = opts.$div;
         this.username = opts.username;
         this.password = opts.password;
+        this.x2 = new X2(opts);
     }
     /**
      * Add a job to be transfered.
@@ -43,7 +44,7 @@ class PODtransfers {
         }
         request.startingTransfer = true;
         me.setDisplayState(request);
-        x2.login()
+        me.x2.login()
         .then( (uuid)=>{
             // docDetails is intercepted by the POD upload route on the server
             // and a message constructed to the application.

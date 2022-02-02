@@ -92,6 +92,7 @@ TitanTMS.prototype.Transfers = function(opts){
 };
 
 TitanTMS.prototype.HomePage = function(){
+  let me = this;
   document.addEventListener('LOAD_PLUGIN_ACTIONS', (ev)=>{
     let $btn = $("<button id='loadManifests'>MANIFESTS</button>");
     $btn.click(()=>{
@@ -102,7 +103,7 @@ TitanTMS.prototype.HomePage = function(){
       $d.append("<br>");
     }
     $d.append($btn);
-    x2.getActiveManifests()
+    me.x2.getActiveManifests()
     .then((manifests)=>{
 
     })

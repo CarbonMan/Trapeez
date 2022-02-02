@@ -1,15 +1,17 @@
-var x2;
+// var x2;
 /**
  * This is the class for interacting with x2 servers
  * It is global so that actions like authentication are shared.
  */
 class X2{
-    constructor(){
+    constructor(opts){
         this.x2State = {uuid:''};
+        this.username = opts.username;
+        this.password = opts.password;
     }
 }
 
-setTimeout(()=>{
-    console.log('Initializing x2');1
-    x2 = new X2();
-},0);
+// setTimeout(()=>{
+//     console.log('Initializing x2');1
+//     //x2 = new X2();
+// },0);
