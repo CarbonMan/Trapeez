@@ -3,7 +3,7 @@ X2.prototype.getActiveManifests = function(){
     .then((uuid)=>{
         let me = this;
         $.ajax({
-            url: me.x2State.host + "/" + me.x2State.script + "/api/manifest/active", 
+            url: me.host + "/" + me.script + "/api/manifest/active", 
             type: 'GET',
             crossDomain: true,
             dataType: "json"

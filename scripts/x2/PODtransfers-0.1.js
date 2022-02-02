@@ -3,14 +3,14 @@
  */
 class PODtransfers {
     constructor(opts) {
-        this.x2State = {
-            uuid: "",
-            host: opts.host,
-            script: opts.script
-        };
+        // this.x2State = {
+        //     uuid: "",
+        //     host: opts.host,
+        //     script: opts.script
+        // };
         this.requireReviews = opts.requireReviews;
-        this.x2State.url = this.x2State.host + "/common/foxisapi.dll/" +
-            this.x2State.script + ".x2";
+        // this.x2State.url = this.x2State.host + "/common/foxisapi.dll/" +
+        //     this.x2State.script + ".x2";
         this.scanBuffer = [];
         this.bufferPtr = 0;
         this.$div = opts.$div;
@@ -86,7 +86,7 @@ class PODtransfers {
     loggedIn(rq) {
         let me = this;
         $.ajax({
-            url: me.x2State.host + "/" + me.x2State.script + "/api/pod", 
+            url: me.x2.host + "/" + me.x2.script + "/api/pod", 
             type: 'POST',
             data: rq,
             crossDomain: true,
@@ -178,7 +178,7 @@ class PODtransfers {
             // Not yet reviewed
             newClass = "black";
             request.statusMessage = "Pending review";
-        } else if (!this.x2State.uuid) {
+        } else if (!this.uuid) {
             // Login failed
             newClass = "half empty red";
             //request.statusMessage = "Login failed";

@@ -1,8 +1,8 @@
 X2.prototype.login = function () {
     return new Promise((resolve, reject) => {
         let me = this;
-        if (me.x2State.uuid) {
-            resolve(me.x2State.uuid);
+        if (me.uuid) {
+            resolve(me.uuid);
             return;
         }
         if (!this.username || !this.password){
@@ -14,7 +14,7 @@ X2.prototype.login = function () {
             "<PARAM1>" + this.password +
             "</PARAM1></x>";
         $.ajax({
-            url: me.x2State.url + ".autologin",
+            url: me.url + ".autologin",
             type: "POST",
             data: str,
             crossDomain: true,
@@ -26,16 +26,16 @@ X2.prototype.login = function () {
                 if ($r.children.length && $r.children(0).prop("tagName").toLowerCase() == 'error') {
                     reject($r.children(0).children(0).html());
                 } else {
-                    me.x2State.uuid = $r.attr("uuid");
+                    me.uuid = $r.attr("uuid");
                 }
-                if (!me.x2State.uuid)
-                    me.x2State.uuid = $r.find("[uuid]").attr("uuid");
-                if (me.x2State.uuid) {
+                if (!me.uuid)
+                    me.uuid = $r.find("[uuid]").attr("uuid");
+                if (me.uuid) {
                     console.log('Log in successful');
                     if (me.$div) {
                         $("#sessionStatus").html("Connected");
                     }
-                    resolve(me.x2State.uuid);
+                    resolve(me.uuid);
                 } else {
                     if (me.$div) {
                         $("#sessionStatus").html("Login failed");

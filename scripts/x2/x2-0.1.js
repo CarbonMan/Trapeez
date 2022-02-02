@@ -8,6 +8,9 @@ class X2{
         this.x2State = {uuid:''};
         this.username = opts.username;
         this.password = opts.password;
+        this.host = opts.host;
+        this.script = opts.script;
+        this.url = `${opts.host}/common/foxisapi.dll/${script}.x2`;
     }
 }
 
