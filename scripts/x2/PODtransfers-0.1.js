@@ -133,7 +133,7 @@ class PODtransfers {
             me.to = setTimeout(()=>{me.transfer()}, 1000);
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
-            var req = me.scanBuffer[this.bufferPtr];
+            var req = me.scanBuffer[me.bufferPtr];
             req.startingTransfer = false;
             req.transferFailed = true;
             me.setDisplayState(req);
