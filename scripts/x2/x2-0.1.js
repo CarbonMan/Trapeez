@@ -10,7 +10,7 @@ class X2{
         this.password = opts.password;
         this.host = opts.host;
         this.script = opts.script;
-        this.url = `${opts.host}/common/foxisapi.dll/${script}.x2`;
+        this.url = `${this.host}/common/foxisapi.dll/${this.script}.x2`;
     }
 }
 
