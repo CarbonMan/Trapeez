@@ -6,7 +6,7 @@
         },
         {
             "priority":1000,
-            "url": "scripts/emailPOD/emailPOD_Project-0.1.js"
+            "url": "scripts/emailPOD/emailPOD_Project.js"
         },
         {
             "priority":1001,
@@ -22,5 +22,5 @@
             "save": []
         }
     },
-    "version": "0.0.2"
+    "version": "0.0.3"
 }
