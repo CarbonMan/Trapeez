@@ -1,0 +1,26 @@
+{
+    "components": [
+        {
+            "priority":100,
+            "url": "scripts/emailPOD/emailTransfers.js"
+        },
+        {
+            "priority":1000,
+            "url": "scripts/emailPOD/emailPOD_Project-0.1.js"
+        },
+        {
+            "priority":1001,
+            "url": "scripts/emailPOD/emailPOD.js"
+        }
+    ],
+    "config": {
+        "disabled": false,
+        "name*": "Email PODs",
+        "helpUrl": "https://htmlpreview.github.io/?https://github.com/CarbonMan/IoTKeys/blob/master/scripts/emailPOD/help/help.html",
+        "process": {
+            "scan": [],
+            "save": []
+        }
+    },
+    "version": "0.0.1"
+}

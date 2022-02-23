@@ -13,6 +13,13 @@
             "name": "Titan Transport Management",
             "type": "serverComms",
             "infLocation": "scripts/TitanTMS/TitanTMS-INF.json"
+        },
+        {
+            "id": "EmailPOD",
+            "category": "Server",
+            "name": "Email PODs",
+            "type": "serverComms",
+            "infLocation": "scripts/emailPOD/emailPOD-INF.json"
         }
     ]
 }

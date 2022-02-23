@@ -1,10 +1,10 @@
 /**
 * Downloaded by the Trapeez app
-* Creates a plugin for communicating PODs to a Centaur
+* Creates a plugin for communicating PODs to a Titan
 * server
 */
-console.log("Centaur internal POD loaded");
-function InternalPOD(){
+console.log("email POD loaded");
+function EmailPOD(){
   this.instances = {};
 
   /**
@@ -14,10 +14,7 @@ function InternalPOD(){
     // If the instance has been saved, then it will exist
     this.instances[opts.name] = instance = Object.assign({
       name: opts.name,
-      centaurUsername: '',
-      centaurPassword: '',
-      centaurHost: '',
-      centaurScript: ''
+      emailAddress: ''
     }, this.instances[opts.name]);
     if (typeof scanner != 'undefined'){
       // index.js - Background transfers
@@ -38,7 +35,7 @@ function InternalPOD(){
   
   if (location.href.indexOf("config.html") > -1){
     // Running in the Configuration page within the app
-    this.configurationUI = new InternalPOD.prototype.Config();
+    this.configurationUI = new this.Config();
   }
   
   if (typeof signatureCapture != 'undefined'){
@@ -48,29 +45,25 @@ function InternalPOD(){
       ev.transfer = true;
     });
   }
-  let ev = new CustomEvent('CENTAUR_POD_READY', {detail: this});
+  let ev = new CustomEvent('EMAILPOD_READY', {detail: this});
   document.dispatchEvent(ev);
 }
 
 /**
 * Background transfers
 */
-InternalPOD.prototype.Transfers = function(opts){
+EmailPOD.prototype.Transfers = function(opts){
   let scanner = opts.hostController;
   let instance = opts.instance;
-  // CentaurPODtransfers is in centaurTransfers-0.1.js
-  let comms = new PODtransfers({
-    username: instance.centaurUsername,
-    password: instance.centaurPassword,
-    host: instance.centaurHost,
-    script: instance.centaurScript
+  let comms = new EmailTransfers({
+    emailAddress: instance.emailAddress
   });
   
   /**
   * Fired from the app for background transfers
   */
   scanner.on('signatureTransfer', (ev)=>{
-    console.log("Centaur POD processing");
+    console.log("Email POD processing");
     console.dir(ev);
     ev.inProgress = true;
     ev.data.done = ()=>{
@@ -79,7 +72,6 @@ InternalPOD.prototype.Transfers = function(opts){
       });
     };
     ev.data.error = (err)=>{
-      console.log('Error transferring signature', err);
       scanner.fire('TRANSFER_ERROR', {
         message: err
       });
@@ -88,5 +80,31 @@ InternalPOD.prototype.Transfers = function(opts){
   });
 };
 
+/**
+* Config is used only in the configuration page
+* for editing settings.
+*/
+EmailPOD.prototype.Config = function(){
+  /**
+  * Create the interface in the app for modifying 
+  * the Titan TMS options
+  */
+  this.options = function($div, instance){
+    let settings = `<div class="field">
+        <label>Username</label>
+        <input type="text" class="instanceForm" id="emailAddress" placeholder="email address" value="${instance.emailAddress || ''}">
+      </div>`;
+    $div.html(settings);
+  };
 
-$T.pluginManagement.register('Centaur_I_POD', new InternalPOD());
+  /**
+  * Called by the app when the user clicks save
+  * @argument {*} instance - Plugin instance
+  */
+  this.saveOptions = function(instance){
+      instance.emailAddress = $("#emailAddress").val();
+  };
+  
+};
+
+$T.pluginManagement.register('EmailPOD', new EmailPOD());

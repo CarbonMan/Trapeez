@@ -3,14 +3,7 @@
  */
 class PODtransfers {
     constructor(opts) {
-        // this.x2State = {
-        //     uuid: "",
-        //     host: opts.host,
-        //     script: opts.script
-        // };
         this.requireReviews = opts.requireReviews;
-        // this.x2State.url = this.x2State.host + "/common/foxisapi.dll/" +
-        //     this.x2State.script + ".x2";
         this.scanBuffer = [];
         this.bufferPtr = 0;
         this.$div = opts.$div;
@@ -18,6 +11,7 @@ class PODtransfers {
         this.password = opts.password;
         this.x2 = new X2(opts);
     }
+    
     /**
      * Add a job to be transfered.
      */
@@ -25,6 +19,7 @@ class PODtransfers {
         this.scanBuffer.push(opts);
         this.startTransfers();
     }
+
     /**
      * Attempt to transfer POD
      */
@@ -39,122 +34,122 @@ class PODtransfers {
             me.bufferPtr++;
             if (me.bufferPtr == me.scanBuffer.length)
                 me.bufferPtr = 0;
-            me.to = setTimeout(()=>{me.transfer()}, 1000);
+            me.to = setTimeout(() => { me.transfer() }, 1000);
             return;
         }
         request.startingTransfer = true;
         me.setDisplayState(request);
         me.x2.login()
-        .then( (uuid)=>{
-            // docDetails is intercepted by the POD upload route on the server
-            // and a message constructed to the application.
-            var docDetails = {
-                uuid,
-                process: 'driverPDAinterface.setStatus',
-                id: request.id,
-                reference: request.reference,
-                name: request.zones[0].value,
-                signed: request.img,
-                mimeType: "image/jpeg",
-                dt: me.getISOdate(),
-                done: request.done
-            };
-            me.loggedIn(docDetails);
-        })
-        .catch((e)=>{ 
-            me.loginFailed.call(me, e, request);
-        });
+            .then((uuid) => {
+                // docDetails is intercepted by the POD upload route on the server
+                // and a message constructed to the application.
+                var docDetails = {
+                    uuid,
+                    process: 'driverPDAinterface.setStatus',
+                    id: request.id,
+                    reference: request.reference,
+                    name: request.zones[0].value,
+                    signed: request.img,
+                    mimeType: "image/jpeg",
+                    dt: me.getISOdate(),
+                    done: request.done
+                };
+                me.loggedIn(docDetails);
+            })
+            .catch((e) => {
+                me.loginFailed.call(me, e, request);
+            });
     }
-    
+
     /**
     * Login failed 
     */
     loginFailed(e, rq) {
         console.log(e);
-        if (rq.error){ 
-            rq.error("Login failed"); 
+        if (rq.error) {
+            rq.error("Login failed");
         }
         // Continue to try, if it was a server fault then it will just resume
         // when the problem is resolved.
-        this.to = setTimeout(()=>{this.transfer()}, 1000);
-        
+        this.to = setTimeout(() => { this.transfer() }, 1000);
+
     }
-    
+
     /**
      * App is logged in and the transfer can start transfers
      */
     loggedIn(rq) {
         let me = this;
         $.ajax({
-            url: me.x2.host + "/" + me.x2.script + "/api/pod", 
+            url: me.x2.host + "/" + me.x2.script + "/api/pod",
             type: 'POST',
             data: rq,
             crossDomain: true,
             dataType: "xml"
         })
-        .done(function (rsp) {
-            if (rsp == "<x2><ERROR><DESCRIPTION>Invalid booking number</DESCRIPTION></ERROR></x2>") {
-                alert(rq.reference + " is an invalid booking number");
-                for (var r = 0; r < me.scanBuffer.length; r++) {
-                    if (me.scanBuffer[r].id = rq.id) {
-                        me.scanBuffer[r].reviewed = false;
-                        return;
+            .done(function (rsp) {
+                if (rsp == "<x2><ERROR><DESCRIPTION>Invalid booking number</DESCRIPTION></ERROR></x2>") {
+                    alert(rq.reference + " is an invalid booking number");
+                    for (var r = 0; r < me.scanBuffer.length; r++) {
+                        if (me.scanBuffer[r].id = rq.id) {
+                            me.scanBuffer[r].reviewed = false;
+                            return;
+                        }
                     }
                 }
-            }
 
-            // Remove from pending
-            var item = me.scanBuffer.splice(this.bufferPtr, 1)[0];
-            if (me.$div){
-                if (currentEditId == rq.id) {
-                    $("#inputFields").empty();
-                    $("#inputDiv").hide();
+                // Remove from pending
+                var item = me.scanBuffer.splice(this.bufferPtr, 1)[0];
+                if (me.$div) {
+                    if (currentEditId == rq.id) {
+                        $("#inputFields").empty();
+                        $("#inputDiv").hide();
+                    }
+                    // Remove from the list
+                    $("#" + item.id).remove();
                 }
-                // Remove from the list
-                $("#" + item.id).remove();
-            }
-            if (typeof host!='undefined') {
-                // Running within IOTkeys
-                // Tell the host to remove the image file
-                var msg = {
-                    type: "delete",
-                    fileName: item.fileName,
-                    details: item
-                };
-                host.sendToHost(JSON.stringify(msg));
-            } else if (rq.done){
-                rq.done();
-            }
-            // Do the next pending POD
-            me.bufferPtr++;
-            if (me.bufferPtr >= me.scanBuffer.length)
-                me.bufferPtr = 0;
-            // Pause for 1 second to not overload the server
-            me.to = setTimeout(()=>{me.transfer()}, 1000);
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            var req = me.scanBuffer[me.bufferPtr];
-            req.startingTransfer = false;
-            req.transferFailed = true;
-            me.setDisplayState(req);
-            if (rq.error){ 
-                rq.error("Login failed"); 
-            }
-            // Continue to try, if it was a server fault then it will just resume
-            // when the problem is resolved.
-            me.to = setTimeout(()=>{me.transfer()}, 1000);
-        });
+                if (typeof host != 'undefined') {
+                    // Running within IOTkeys
+                    // Tell the host to remove the image file
+                    var msg = {
+                        type: "delete",
+                        fileName: item.fileName,
+                        details: item
+                    };
+                    host.sendToHost(JSON.stringify(msg));
+                } else if (rq.done) {
+                    rq.done();
+                }
+                // Do the next pending POD
+                me.bufferPtr++;
+                if (me.bufferPtr >= me.scanBuffer.length)
+                    me.bufferPtr = 0;
+                // Pause for 1 second to not overload the server
+                me.to = setTimeout(() => { me.transfer() }, 1000);
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                var req = me.scanBuffer[me.bufferPtr];
+                req.startingTransfer = false;
+                req.transferFailed = true;
+                me.setDisplayState(req);
+                if (rq.error) {
+                    rq.error("Login failed");
+                }
+                // Continue to try, if it was a server fault then it will just resume
+                // when the problem is resolved.
+                me.to = setTimeout(() => { me.transfer() }, 1000);
+            });
     }
 
     getISOdate(dt) {
         if (!dt)
             dt = new Date()
 
-                return dt.getFullYear() + "-" + (dt.getMonth() + 1)
-                 + "-" + dt.getDate() + " " + dt.getHours() + ":" + dt.getMinutes();
+        return dt.getFullYear() + "-" + (dt.getMonth() + 1)
+            + "-" + dt.getDate() + " " + dt.getHours() + ":" + dt.getMinutes();
     }
 
-  
+
     /**
     * If a display is being used this will update the 
     * status of the pending transfers
@@ -187,7 +182,7 @@ class PODtransfers {
             newClass = "half empty green";
             request.statusMessage = "in transit";
         }
-        if (this.$div){
+        if (this.$div) {
             $("#" + request.id + "_status").html("(" + request.statusMessage + ")");
             if (newClass)
                 $("#" + request.id + "_icon").removeClass().addClass("icon star " + newClass);
@@ -198,7 +193,7 @@ class PODtransfers {
     */
     startTransfers() {
         clearTimeout(this.to);
-        this.to = setTimeout(()=>{this.transfer()}, 1000);
+        this.to = setTimeout(() => { this.transfer() }, 1000);
     }
 
 }
