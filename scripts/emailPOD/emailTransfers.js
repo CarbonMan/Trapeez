@@ -77,7 +77,9 @@ class EmailTransfers {
         // The email plugin requires the base64 image header to be stripped off
         let arr = request.img.split(',');
         arr.shift();
-        let img = arr.join(',');
+        debugger;
+        let img = 'base64:image.jpg//';
+        img += arr.join(',');
         let d = new Date(),
             dOptions = {
                 weekday: 'long',
@@ -95,7 +97,7 @@ class EmailTransfers {
             subject: `Job # ${request.reference}`,
             body,
             isHTML: true,
-            attachments: ['base64:image.jpg//' + img]
+            attachments: [img]
         }, function (err) {
             if (err) {
                 console.log(err);
