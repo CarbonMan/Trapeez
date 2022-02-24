@@ -77,7 +77,7 @@ class EmailTransfers {
         // The email plugin requires the base64 image header to be stripped off
         let arr = request.img.split(',');
         arr.shift();
-        img = arr.join(',');
+        let img = arr.join(',');
         let d = new Date(),
             dOptions = {
                 weekday: 'long',

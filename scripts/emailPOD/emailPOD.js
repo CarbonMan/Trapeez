@@ -91,7 +91,7 @@ EmailPOD.prototype.Config = function(){
   */
   this.options = function($div, instance){
     let settings = `<div class="field">
-        <label>Username</label>
+        <label>Email address</label>
         <input type="text" class="instanceForm" id="emailAddress" placeholder="email address" value="${instance.emailAddress || ''}">
       </div>`;
     $div.html(settings);
