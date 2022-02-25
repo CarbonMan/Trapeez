@@ -78,7 +78,7 @@ class EmailTransfers {
         let arr = request.img.split(',');
         arr.shift();
         debugger;
-        let img = 'base64:image.jpg//,';
+        let img = 'base64:image.jpg//';
         img += arr.join(',');
         let d = new Date(),
             dOptions = {
