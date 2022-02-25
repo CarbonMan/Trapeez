@@ -37,16 +37,16 @@ class EmailTransfers {
         }
         request.startingTransfer = true;
         me.setDisplayState(request);
-        cordova.plugins.email.isAvailable(
-            function (isAvailable) {
-                if (isAvailable) {
+        // cordova.plugins.email.isAvailable(
+        //     function (isAvailable) {
+        //         if (isAvailable) {
                     me.emailTransfer(request);
-                } else {
-                    alert("Email service is not available");
-                    return;
-                }
-            }
-        );
+        //         } else {
+        //             alert("Email service is not available");
+        //             return;
+        //         }
+        //     }
+        // );
         /*
                 me.x2.login()
                     .then((uuid) => {
