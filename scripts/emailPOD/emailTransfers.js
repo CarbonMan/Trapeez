@@ -40,9 +40,10 @@ class EmailTransfers {
         me.emailTransfer(request);
     }
 
-    emailTransfer(request) {
+    emailTransfer(msg) {
         // There can 1 or more images to be transferred
         // The email plugin requires the base64 image header to be stripped off
+        let request = msg.data;
         let d = new Date(),
             dOptions = {
                 weekday: 'long',

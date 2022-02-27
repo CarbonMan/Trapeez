@@ -154,7 +154,8 @@ class PODtransfers {
     * If a display is being used this will update the 
     * status of the pending transfers
     */
-    setDisplayState(request) {
+    setDisplayState(msg) {
+        let request = msg.data;
         request.invalidFormat = (request.zones[0].value == "");
         var newClass;
         if (!request.invalidFormat) {
