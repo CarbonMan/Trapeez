@@ -37,38 +37,7 @@ class EmailTransfers {
         }
         request.startingTransfer = true;
         me.setDisplayState(request);
-        // cordova.plugins.email.isAvailable(
-        //     function (isAvailable) {
-        //         if (isAvailable) {
         me.emailTransfer(request);
-        //         } else {
-        //             alert("Email service is not available");
-        //             return;
-        //         }
-        //     }
-        // );
-        /*
-                me.x2.login()
-                    .then((uuid) => {
-                        // docDetails is intercepted by the POD upload route on the server
-                        // and a message constructed to the application.
-                        var docDetails = {
-                            uuid,
-                            process: 'driverPDAinterface.setStatus',
-                            id: request.id,
-                            reference: request.reference,
-                            name: request.zones[0].value,
-                            signed: request.img,
-                            mimeType: "image/jpeg",
-                            dt: me.getISOdate(),
-                            done: request.done
-                        };
-                        me.loggedIn(docDetails);
-                    })
-                    .catch((e) => {
-                        me.loginFailed.call(me, e, request);
-                    });
-                    */
     }
 
     emailTransfer(request) {
@@ -130,7 +99,7 @@ class EmailTransfers {
     * status of the pending transfers
     */
     setDisplayState(request) {
-        request.invalidFormat = (request.zones[0].value == "");
+        request.invalidFormat = (request.reference == "");
         var newClass;
         if (!request.invalidFormat) {
             // Ready to go
