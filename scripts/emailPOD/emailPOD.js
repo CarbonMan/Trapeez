@@ -4,19 +4,19 @@
 * server
 */
 console.log("email POD loaded");
-function EmailPOD(){
+function EmailPOD() {
   this.instances = {};
 
   /**
   * Create an instance of this plugin
   */
-  this.createInstance = function(opts){
+  this.createInstance = function (opts) {
     // If the instance has been saved, then it will exist
     this.instances[opts.name] = instance = Object.assign({
       name: opts.name,
       emailAddress: ''
     }, this.instances[opts.name]);
-    if (typeof scanner != 'undefined'){
+    if (typeof scanner != 'undefined') {
       // index.js - Background transfers
       instance.transfers = new this.Transfers({
         hostController: scanner,
@@ -25,58 +25,66 @@ function EmailPOD(){
     }
     return instance;
   };
-  
-  if (typeof scanner != 'undefined'){
+
+  if (typeof scanner != 'undefined') {
     // Start processing PODs
-    setTimeout(()=>{
+    setTimeout(() => {
       scanner.synchronize();
-    },0);
+    }, 0);
   }
-  
-  if (location.href.indexOf("config.html") > -1){
+
+  if (location.href.indexOf("config.html") > -1) {
     // Running in the Configuration page within the app
     this.configurationUI = new this.Config();
   }
-  
-  if (typeof signatureCapture != 'undefined'){
+
+  if (typeof signatureCapture != 'undefined') {
     // index.js - Background transfers
-    signatureCapture.on('storeSignature', (ev)=>{
+    signatureCapture.on('storeSignature', (ev) => {
       // Tell the app that the signature should be transferred 
       ev.transfer = true;
     });
   }
-  let ev = new CustomEvent('EMAILPOD_READY', {detail: this});
+  let ev = new CustomEvent('EMAILPOD_READY', { detail: this });
   document.dispatchEvent(ev);
 }
 
 /**
 * Background transfers
 */
-EmailPOD.prototype.Transfers = function(opts){
+EmailPOD.prototype.Transfers = function (opts) {
   let scanner = opts.hostController;
   let instance = opts.instance;
   let comms = new EmailTransfers({
     emailAddress: instance.emailAddress
   });
-  
+
   /**
   * Fired from the app for background transfers
   */
-  scanner.on('signatureTransfer', (ev)=>{
-    console.log("Email POD processing");
-    console.dir(ev);
-    ev.inProgress = true;
-    ev.data.done = ()=>{
-      scanner.fire('TRANSFER_COMPLETE', {
-        fileEntry: ev.fileEntry
-      });
-    };
-    ev.data.error = (err)=>{
-      scanner.fire('TRANSFER_ERROR', {
-        message: err
-      });
-    };
-    comms.add(ev.data);
+  scanner.on('signatureTransfer', (ev) => {
+    let job = new Promise((resolve, reject) => {
+      console.log("Email POD processing");
+      console.dir(ev);
+      ev.inProgress = true;
+      let req = {
+        data: ev.data
+      };
+      req.done = () => {
+        resolve();
+        scanner.fire('TRANSFER_COMPLETE', {
+          fileEntry: ev.fileEntry
+        });
+      };
+      req.error = (err) => {
+        reject(err);
+        scanner.fire('TRANSFER_ERROR', {
+          message: err
+        });
+      };
+      comms.add(req);
+    });
+    ev.finished.push(job);
   });
 };
 
@@ -84,12 +92,12 @@ EmailPOD.prototype.Transfers = function(opts){
 * Config is used only in the configuration page
 * for editing settings.
 */
-EmailPOD.prototype.Config = function(){
+EmailPOD.prototype.Config = function () {
   /**
   * Create the interface in the app for modifying 
   * the Titan TMS options
   */
-  this.options = function($div, instance){
+  this.options = function ($div, instance) {
     let settings = `<div class="field">
         <label>Email address</label>
         <input type="text" class="instanceForm" id="emailAddress" placeholder="email address" value="${instance.emailAddress || ''}">
@@ -101,10 +109,10 @@ EmailPOD.prototype.Config = function(){
   * Called by the app when the user clicks save
   * @argument {*} instance - Plugin instance
   */
-  this.saveOptions = function(instance){
-      instance.emailAddress = $("#emailAddress").val();
+  this.saveOptions = function (instance) {
+    instance.emailAddress = $("#emailAddress").val();
   };
-  
+
 };
 
 $T.pluginManagement.register('EmailPOD', new EmailPOD());

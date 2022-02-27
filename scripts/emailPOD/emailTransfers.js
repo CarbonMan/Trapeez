@@ -40,7 +40,7 @@ class EmailTransfers {
         // cordova.plugins.email.isAvailable(
         //     function (isAvailable) {
         //         if (isAvailable) {
-                    me.emailTransfer(request);
+        me.emailTransfer(request);
         //         } else {
         //             alert("Email service is not available");
         //             return;
@@ -72,14 +72,8 @@ class EmailTransfers {
     }
 
     emailTransfer(request) {
-        // canvas2ImagePlugin.saveImageDataToLibrary(
-        //     function (msg) {
+        // There can 1 or more images to be transferred
         // The email plugin requires the base64 image header to be stripped off
-        let arr = request.img.split(',');
-        arr.shift();
-        debugger;
-        let img = 'base64:image.jpg//';
-        img += arr.join(',');
         let d = new Date(),
             dOptions = {
                 weekday: 'long',
@@ -89,20 +83,34 @@ class EmailTransfers {
             },
             dt = d.toLocaleDateString('en-US', dOptions) + ' ' +
                 d.toLocaleTimeString();
-        let body = `ID: ${request.reference} <br> 
-                DELIVERED: ${dt}
-                SIGNED BY: ${request.zones[0].value}`;
+        let body = `ID: ${request.reference}
+                DATE/TIME: ${dt}
+                `;
+        if (request.contents[0].zones[0].value){
+            body += `SIGNED BY: ${request.contents[0].zones[0].value}`;
+        }
+        let attachments = [];
+        request.contents.forEach(r=>{
+            let arr = r.img.split(',');
+            arr.shift();
+            debugger;
+            let img = 'base64:image.jpg//';
+            img += arr.join(',');
+            attachments.push(img);
+        });
         cordova.plugins.email.open({
             to: this.emailAddress,
             subject: `Job # ${request.reference}`,
             body,
             isHTML: true,
-            attachments: [img]
+            attachments
         }, function (err) {
             if (err) {
                 console.log(err);
+                request.error(err);
             } else {
                 console.log('Email success');
+                request.done();
             }
         });
     }
