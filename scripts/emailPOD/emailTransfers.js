@@ -77,10 +77,10 @@ class EmailTransfers {
         }, function (err) {
             if (err!='OK') {
                 console.log(err);
-                request.error(err);
+                msg.error(err);
             } else {
                 console.log('Email success');
-                request.done();
+                msg.done();
             }
         });
     }
