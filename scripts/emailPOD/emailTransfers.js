@@ -75,7 +75,7 @@ class EmailTransfers {
             isHTML: true,
             attachments
         }, function (err) {
-            if (err) {
+            if (err!='OK') {
                 console.log(err);
                 request.error(err);
             } else {
