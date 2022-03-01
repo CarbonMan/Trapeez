@@ -63,7 +63,6 @@ class EmailTransfers {
         request.contents.forEach(r=>{
             let arr = r.img.split(',');
             arr.shift();
-            debugger;
             let img = 'base64:image.jpg//';
             img += arr.join(',');
             attachments.push(img);
