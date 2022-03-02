@@ -54,21 +54,23 @@ class EmailTransfers {
             dt = d.toLocaleDateString('en-US', dOptions) + ' ' +
                 d.toLocaleTimeString();
         let body = `ID: ${request.reference}
-                DATE/TIME: ${dt}
-                `;
-        if (request.contents[0].zones[0].value){
-            body += `SIGNED BY: ${request.contents[0].zones[0].value}`;
-        }
-        let c = 1, attachments = [];
-        request.contents.forEach(r=>{
+        DATE/TIME: ${dt}
+        `;
+        let attachments = [];
+        request.contents.forEach((r,i)=>{
+            // reformat the image base64 to be compatible with the email plugin
             let arr = r.img.split(',');
             let ext = 'jpg';
             if (arr[0].indexOf('png')>-1) ext = 'png';
             arr.shift();
-            let img = `base64:image-${c++}.${ext}//`;
+            let imgName = `image-${i}`;
+            let img = `base64:${imgName}.${ext}//`;
             img += arr.join(',');
             attachments.push(img);
-        });
+            if (r.zones[0].value){
+                body += `${imgName}: ${r.zones[0].value}`;
+            }
+            });
         cordova.plugins.email.open({
             to: this.emailAddress,
             subject: `Job # ${request.reference}`,
