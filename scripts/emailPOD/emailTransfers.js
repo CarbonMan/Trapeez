@@ -59,11 +59,13 @@ class EmailTransfers {
         if (request.contents[0].zones[0].value){
             body += `SIGNED BY: ${request.contents[0].zones[0].value}`;
         }
-        let attachments = [];
+        let c = 1, attachments = [];
         request.contents.forEach(r=>{
             let arr = r.img.split(',');
+            let ext = 'jpg';
+            if (arr[0].indexOf('png')>-1) ext = 'png';
             arr.shift();
-            let img = 'base64:image.jpg//';
+            let img = `base64:image-${c++}.${ext}//`;
             img += arr.join(',');
             attachments.push(img);
         });
