@@ -43,6 +43,7 @@ class EmailTransfers {
     emailTransfer(msg) {
         // There can 1 or more images to be transferred
         // The email plugin requires the base64 image header to be stripped off
+        let cats = new Categories();
         let request = msg.data;
         let d = new Date(),
             dOptions = {
@@ -67,8 +68,9 @@ class EmailTransfers {
             let img = `base64:${imgName}.${ext}//`;
             img += arr.join(',');
             attachments.push(img);
+            let title = cats.translate(r.category, r.zones[0].id);
             if (r.zones[0].value){
-                body += `${imgName}: ${r.zones[0].value}`;
+                body += `${title}: ${r.zones[0].value}`;
             }
             });
         cordova.plugins.email.open({
