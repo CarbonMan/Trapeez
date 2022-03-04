@@ -43,6 +43,7 @@ class EmailTransfers {
     emailTransfer(msg) {
         // There can 1 or more images to be transferred
         // The email plugin requires the base64 image header to be stripped off
+        console.log('Email transfer', msg);
         let cats = new Categories();
         let request = msg.data;
         let d = new Date(),
