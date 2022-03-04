@@ -1,16 +1,4 @@
 function EmailPODproject() {
-  let cat = new Category({
-    name: "POD",
-    value: "POD"
-  });
-  cat.addLabel({
-    id: "nameLabel",
-    text: "NAME"
-  })
-  cat.addField({
-    id: "name",
-    outputAs: "Name"
-  })
   document.addEventListener('LOAD_PLUGIN_ACTIONS', function (ev) {
     // Attach a POD action onto the actions combobox
     ev.detail.actions.push({
@@ -20,7 +8,39 @@ function EmailPODproject() {
   });
   document.addEventListener('LOAD_PLUGIN_CATEGORIES', function (ev) {
     // Attach a POD action onto the actions combobox
+    let cat = new Category({
+      name: "POD",
+      value: "POD"
+    });
+    cat.addLabel({
+      id: "nameLabel",
+      text: "NAME"
+    })
+    cat.addField({
+      id: "name",
+      outputAs: "Name"
+    })
     ev.detail.categories.push(cat);
+
+    cat = new Category({
+      name: "DAMAGE",
+      value: "DAMAGE",
+      onSelected: ()=>{
+        $("#sign").hide();
+      },
+      onRemoved: ()=>{
+        $("#sign").show();
+      }
+    });
+    cat.addLabel({
+      id: "nameLabel",
+      text: "NAME"
+    })
+    cat.addField({
+      id: "name",
+      outputAs: "Name"
+    })
+        ev.detail.categories.push(cat);
   });
 }
 
