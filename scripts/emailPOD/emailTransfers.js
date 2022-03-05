@@ -71,7 +71,7 @@ class EmailTransfers {
             attachments.push(img);
             let title = cats.translate(r.category, r.zones[0].id);
             if (r.zones[0].value){
-                body += `${title}: ${r.zones[0].value}`;
+                body += `\n${title}: ${r.zones[0].value}`;
             }
             });
         cordova.plugins.email.open({

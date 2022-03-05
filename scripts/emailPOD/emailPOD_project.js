@@ -38,7 +38,7 @@ function EmailPODproject() {
     })
     cat.addField({
       id: "name",
-      outputAs: "Name"
+      outputAs: "Damage note"
     })
         ev.detail.categories.push(cat);
   });
