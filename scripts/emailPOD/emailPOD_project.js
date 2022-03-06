@@ -17,7 +17,7 @@ function EmailPODproject() {
     let res = '';
     if (request.gps){
         res = `Latitude : ${request.gps.latitude} Longitude: ${request.gps.longitude}
-        <a href=https://www.google.com/maps/search/?api=1&query=${request.gps.latitude},${request.gps.longitude}>MAP</a>`;
+        MAP: https://www.google.com/maps/search/?api=1&query=${request.gps.latitude},${request.gps.longitude}`;
     }
     return res;
   };
