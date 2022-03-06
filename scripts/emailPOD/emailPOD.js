@@ -38,13 +38,13 @@ function EmailPOD() {
     this.configurationUI = new this.Config();
   }
 
-  if (typeof signatureCapture != 'undefined') {
-    // index.js - Background transfers
-    signatureCapture.on('storeSignature', (ev) => {
-      // Tell the app that the signature should be transferred 
-      ev.transfer = true;
-    });
-  }
+  // if (typeof signatureCapture != 'undefined') {
+  //   // index.js - Background transfers
+  //   signatureCapture.on('storeSignature', (ev) => {
+  //     // Tell the app that the signature should be transferred 
+  //     ev.transfer = true;
+  //   });
+  // }
   let ev = new CustomEvent('EMAILPOD_READY', { detail: this });
   document.dispatchEvent(ev);
 }

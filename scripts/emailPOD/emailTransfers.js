@@ -59,21 +59,28 @@ class EmailTransfers {
         DATE/TIME: ${dt}
         `;
         let attachments = [];
-        request.contents.forEach((r,i)=>{
+        request.contents.forEach((r, i) => {
             // reformat the image base64 to be compatible with the email plugin
             let arr = r.img.split(',');
             let ext = 'jpg';
-            if (arr[0].indexOf('png')>-1) ext = 'png';
+            let category = cats.getCategory(r.category);
+            if (arr[0].indexOf('png') > -1) ext = 'png';
             arr.shift();
             let imgName = `image-${i}`;
             let img = `base64:${imgName}.${ext}//`;
             img += arr.join(',');
             attachments.push(img);
-            let title = cats.translate(r.category, r.zones[0].id);
-            if (r.zones[0].value){
+            let title = category.translate(r.zones[0].id);
+            if (r.zones[0].value) {
                 body += `\n${title}: ${r.zones[0].value}`;
             }
-            });
+            if (category.msgBodyInject) {
+                let msg = category.msgBodyInject(r);
+                if (msg) {
+                    body += `\n${msg}`;
+                }
+            }
+        });
         cordova.plugins.email.open({
             to: this.emailAddress,
             subject: `Job # ${request.reference}`,
@@ -81,7 +88,7 @@ class EmailTransfers {
             isHTML: true,
             attachments
         }, function (err) {
-            if (err!='OK') {
+            if (err != 'OK') {
                 console.log(err);
                 msg.error(err);
             } else {

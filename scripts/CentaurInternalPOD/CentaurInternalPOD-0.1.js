@@ -41,13 +41,13 @@ function InternalPOD(){
     this.configurationUI = new InternalPOD.prototype.Config();
   }
   
-  if (typeof signatureCapture != 'undefined'){
-    // index.js - Background transfers
-    signatureCapture.on('storeSignature', (ev)=>{
-      // Tell the app that the signature should be transferred 
-      ev.transfer = true;
-    });
-  }
+  // if (typeof signatureCapture != 'undefined'){
+  //   // index.js - Background transfers
+  //   signatureCapture.on('storeSignature', (ev)=>{
+  //     // Tell the app that the signature should be transferred 
+  //     ev.transfer = true;
+  //   });
+  // }
   let ev = new CustomEvent('CENTAUR_POD_READY', {detail: this});
   document.dispatchEvent(ev);
 }

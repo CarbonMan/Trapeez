@@ -6,6 +6,22 @@ function EmailPODproject() {
       value: "EmailPOD"
     });
   });
+
+  /**
+   * Called from emailTransfer allowing the addition of GPS data 
+   * to an email
+   * @param {Object} request 
+   * @returns 
+   */
+  Category.prototype.msgBodyInject = function (request) {
+    let res = '';
+    if (request.gps){
+        res = `Latitude : ${request.gps.latitude}
+        Longitude: ${request.gps.longitude}`;
+    }
+    return res;
+  };
+
   document.addEventListener('LOAD_PLUGIN_CATEGORIES', function (ev) {
     // Attach a POD action onto the actions combobox
     let cat = new Category({
@@ -25,10 +41,10 @@ function EmailPODproject() {
     cat = new Category({
       name: "DAMAGE",
       value: "DAMAGE",
-      onSelected: ()=>{
+      onSelected: () => {
         $("#sign").hide();
       },
-      onRemoved: ()=>{
+      onRemoved: () => {
         $("#sign").show();
       }
     });
@@ -40,7 +56,7 @@ function EmailPODproject() {
       id: "name",
       outputAs: "Damage note"
     })
-        ev.detail.categories.push(cat);
+    ev.detail.categories.push(cat);
   });
 }
 
