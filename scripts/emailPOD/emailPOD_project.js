@@ -15,9 +15,9 @@ function EmailPODproject() {
    */
   Category.prototype.msgBodyInject = function (request) {
     let res = '';
-    if (request.gps){
-        res = `Latitude : ${request.gps.latitude} Longitude: ${request.gps.longitude}
-        MAP: https://www.google.com/maps/search/?api=1&query=${request.gps.latitude},${request.gps.longitude}`;
+    if (request.gps) {
+      res = `Latitude : ${request.gps.latitude} Longitude: ${request.gps.longitude}
+MAP: https://www.google.com/maps/search/?api=1&query=${request.gps.latitude},${request.gps.longitude}`;
     }
     return res;
   };
