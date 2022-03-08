@@ -40,7 +40,7 @@ class EmailTransfers {
         me.emailTransfer(request);
     }
 
-    emailTransfer(msg) {
+    async emailTransfer(msg) {
         // There can 1 or more images to be transferred
         // The email plugin requires the base64 image header to be stripped off
         console.log('Email transfer', msg);
@@ -82,7 +82,7 @@ class EmailTransfers {
             }
         });
         // sha256 to stop tampering
-        let hash = sha256(body);
+        let hash = await sha256(body);
         body += '\n\nCHECK: ' + hash;
         cordova.plugins.email.open({
             to: this.emailAddress,
