@@ -63,18 +63,18 @@ class EmailTransfers {
             // reformat the image base64 to be compatible with the email plugin
             let arr = r.img.split(',');
             let ext = 'jpg';
-            let category = cats.getCategory(r.category);
             if (arr[0].indexOf('png') > -1) ext = 'png';
             arr.shift();
             let imgName = `image-${i}`;
             let img = `base64:${imgName}.${ext}//`;
             img += arr.join(',');
             attachments.push(img);
-            let title = category.translate(r.zones[0].id);
+            let category = cats.getCategory(r.category);
+            let title = category ? category.translate(r.zones[0].id) : r.zones[0].id;
             if (r.zones[0].value) {
                 body += `\n${title}: ${r.zones[0].value}`;
             }
-            if (category.msgBodyInject) {
+            if (category && category.msgBodyInject) {
                 let msg = category.msgBodyInject(r);
                 if (msg) {
                     body += `\n${msg}`;
