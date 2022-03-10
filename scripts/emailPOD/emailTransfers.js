@@ -69,7 +69,12 @@ class EmailTransfers {
             let img = `base64:${imgName}.${ext}//`;
             img += arr.join(',');
             attachments.push(img);
+            body += `\n\n${imgName}.${ext}
+            ----------------------`;
             let category = cats.getCategory(r.category);
+            if (category){
+                body += `\n${category.name}\n`;
+            }
             let title = category ? category.translate(r.zones[0].id) : r.zones[0].id;
             if (r.zones[0].value) {
                 body += `\n${title}: ${r.zones[0].value}`;
