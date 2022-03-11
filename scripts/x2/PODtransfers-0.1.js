@@ -155,6 +155,7 @@ class PODtransfers {
     * status of the pending transfers
     */
     setDisplayState(msg) {
+        return;
         let request = msg.data;
         request.invalidFormat = (request.zones[0].value == "");
         var newClass;
