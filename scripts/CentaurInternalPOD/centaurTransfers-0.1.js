@@ -9,13 +9,13 @@ class CentaurPODtransfers {
             script: opts.script
         };
         this.requireReviews = opts.requireReviews;
-        this.x2State.url = this.x2State.host + "/common/foxisapi.dll/" +
-            this.x2State.script + ".x2";
+        this.x2State.url = this.x2State.host.trim() + "/common/foxisapi.dll/" +
+            this.x2State.script.trim() + ".x2";
         this.scanBuffer = [];
         this.bufferPtr = 0;
         this.$div = opts.$div;
-        this.username = opts.username;
-        this.password = opts.password;
+        this.username = opts.username.trim();
+        this.password = opts.password.trim();
     }
     /**
      * Add a job to be transfered.
