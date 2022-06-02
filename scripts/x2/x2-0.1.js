@@ -6,10 +6,10 @@
 class X2{
     constructor(opts){
         this.x2State = {uuid:''};
-        this.username = opts.username;
-        this.password = opts.password;
-        this.host = opts.host;
-        this.script = opts.script;
+        this.username = opts.username.trim();
+        this.password = opts.password.trim();
+        this.host = opts.host.trim();
+        this.script = opts.script.trim();
         this.url = `${this.host}/common/foxisapi.dll/${this.script}.x2`;
     }
 }

@@ -7,9 +7,9 @@ class PODtransfers {
         this.scanBuffer = [];
         this.bufferPtr = 0;
         this.$div = opts.$div;
-        this.username = opts.username;
-        this.password = opts.password;
         this.x2 = new X2(opts);
+        //this.username = opts.username.trim();
+        //this.password = opts.password.trim();
     }
     
     /**
