@@ -43,13 +43,14 @@ class PODtransfers {
             .then((uuid) => {
                 // docDetails is intercepted by the POD upload route on the server
                 // and a message constructed to the application.
+                let contents = request.contents;
                 var docDetails = {
                     uuid,
                     process: 'driverPDAinterface.setStatus',
                     id: request.id,
-                    reference: request.reference,
-                    name: request.zones[0].value,
-                    signed: request.img,
+                    reference: contents.reference,
+                    name: contents.zones[0].value,
+                    signed: contents.img,
                     mimeType: "image/jpeg",
                     dt: me.getISOdate(),
                     done: request.done
