@@ -11,7 +11,7 @@ class PODtransfers {
         //this.username = opts.username.trim();
         //this.password = opts.password.trim();
     }
-    
+
     /**
      * Add a job to be transfered.
      */
@@ -44,18 +44,21 @@ class PODtransfers {
                 // docDetails is intercepted by the POD upload route on the server
                 // and a message constructed to the application.
                 let contents = request.contents;
-                var docDetails = {
-                    uuid,
-                    process: 'driverPDAinterface.setStatus',
-                    id: request.id,
-                    reference: contents.reference,
-                    name: contents.zones[0].value,
-                    signed: contents.img,
-                    mimeType: "image/jpeg",
-                    dt: me.getISOdate(),
-                    done: request.done
-                };
-                me.loggedIn(docDetails);
+                contents.forEach((content) => {
+                    let docDetails = {
+                        uuid,
+                        process: 'driverPDAinterface.setStatus',
+                        id: request.id,
+                        reference: content.reference,
+                        name: content.zones[0].value,
+                        signed: content.img,
+                        mimeType: "image/jpeg",
+                        dt: me.getISOdate(),
+                        done: request.done
+                    };
+                    // TODO: Implement as a promise.all
+                    me.loggedIn(docDetails);
+                });
             })
             .catch((e) => {
                 me.loginFailed.call(me, e, request);
