@@ -70,21 +70,26 @@ InternalPOD.prototype.Transfers = function(opts){
   * Fired from the app for background transfers
   */
   scanner.on('signatureTransfer', (ev)=>{
-    console.log("Centaur POD processing");
-    console.dir(ev);
-    ev.inProgress = true;
-    ev.data.done = ()=>{
-      scanner.fire('TRANSFER_COMPLETE', {
-        fileEntry: ev.fileEntry
-      });
-    };
-    ev.data.error = (err)=>{
-      console.log('Error transferring signature', err);
-      scanner.fire('TRANSFER_ERROR', {
-        message: err
-      });
-    };
-    comms.add(ev.data);
+    let p = new Promise((resolve, reject)=>{
+      console.log("Centaur POD processing");
+      console.dir(ev);
+      ev.inProgress = true;
+      ev.data.done = ()=>{
+        scanner.fire('TRANSFER_COMPLETE', {
+          fileEntry: ev.fileEntry
+        });
+        resolve();
+      };
+      ev.data.error = (err)=>{
+        console.log('Error transferring signature', err);
+        scanner.fire('TRANSFER_ERROR', {
+          message: err
+        });
+        reject();
+      };
+      comms.add(ev.data);
+    });
+    ev.finished.push(p);
   });
 };
 
