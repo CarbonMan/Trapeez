@@ -85,7 +85,7 @@ InternalPOD.prototype.Transfers = function(opts){
         scanner.fire('TRANSFER_ERROR', {
           message: err
         });
-        reject();
+        reject(err);
       };
       comms.add(ev.data);
     });
