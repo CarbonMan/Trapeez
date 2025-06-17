@@ -88,8 +88,8 @@ class PODtransfers {
 		  const headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
 
 		  // --- fire the request -------------------------------------------------
-		  (cordova.plugin && cordova.plugin.http ? cordova.plugin.http : cordovaHTTP)
-			.post(
+		  cordova.plugin.http.setDataSerializer('json')
+		  cordova.plugin.http.post(
 			  url,
 			  rq,         // body – left as JS object; plugin encodes it for us
 			  headers,
