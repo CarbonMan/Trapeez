@@ -47,7 +47,7 @@ class PODtransfers {
                     let docDetails = {
                         uuid,
                         process: 'driverPDAinterface.setStatus',
-                        id: request.id,
+                        id: (request.id || -1).toString(),
                         reference: content.reference,
                         name: content.zones[0].value,
                         signed: content.img,
