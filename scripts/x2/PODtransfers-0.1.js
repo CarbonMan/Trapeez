@@ -52,11 +52,10 @@ class PODtransfers {
                         name: content.zones[0].value,
                         signed: content.img,
                         mimeType: "image/jpeg",
-                        dt: me.getISOdate(),
-                        done: request.done
+                        dt: me.getISOdate()
                     };
                     // TODO: Implement as a promise.all
-                    me.loggedIn(docDetails);
+                    me.loggedIn(docDetails, request.done);
                 });
             })
             .catch((e) => {
@@ -81,7 +80,7 @@ class PODtransfers {
     /**
      * App is logged in and the transfer can start transfers
      */
-	 loggedIn(rq) {
+	 loggedIn(rq, cb) {
 		  const me   = this;
 		  const url  = `${me.x2.host}/${me.x2.script}/api/pod`;
 
@@ -126,8 +125,8 @@ class PODtransfers {
 					fileName: item.fileName,
 					details: item
 				  }));
-				} else if (rq.done) {
-				  rq.done();                           // caller-supplied hook
+				} else if (cb) {
+				  cb();                           // caller-supplied hook
 				}
 
 				// schedule next transfer ----------------------------------------
@@ -140,7 +139,7 @@ class PODtransfers {
 				req.transferFailed   = true;
 				me.setDisplayState(req);
 
-				rq.error && rq.error('Login failed');  // invoke caller hook
+				cb && cb('Login failed');  // invoke caller hook
 
 				// keep retrying every second – same logic as original
 				me.to = setTimeout(() => me.transfer(), 1000);
