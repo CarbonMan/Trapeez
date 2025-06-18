@@ -85,8 +85,8 @@ class PODtransfers {
 		  const url  = `${me.x2.host}/${me.x2.script}/api/pod`;
 
 		  // --- headers: let server know we're posting url-encoded form data ----
-		  const headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
-
+		  //const headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
+		  const headers = { 'Content-Type': "application/json"};
 		  // --- fire the request -------------------------------------------------
 		  cordova.plugin.http.setDataSerializer('json')
 		  cordova.plugin.http.post(
