@@ -1,4 +1,9 @@
 {
+    "binaries": [{
+        "id": "Trapeez",
+        "version": "0.3",
+        "infLocation": "scripts/CentaurInternalPOD/CentaurInternalPOD-INF-0.1.json"
+    }],
     "plugins": [{
             "id": "Centaur_I_POD",
             "category": "Server",
