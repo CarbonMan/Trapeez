@@ -1,8 +1,8 @@
 {
     "binaries": [{
         "id": "Trapeez",
-        "version": "0.3",
-        "infLocation": "scripts/CentaurInternalPOD/CentaurInternalPOD-INF-0.1.json"
+        "version": "1.0.0",
+        "location": "binaries/app-debug.apk"
     }],
     "plugins": [{
             "id": "Centaur_I_POD",
