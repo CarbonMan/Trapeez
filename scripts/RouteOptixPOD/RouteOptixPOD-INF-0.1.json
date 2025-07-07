@@ -1,0 +1,30 @@
+{
+    "components": [
+        {
+            "priority":0,
+            "url": "scripts/f3/f3-0.1.js"
+        },
+        {
+            "priority":0,
+            "url": "scripts/f3/auth-1.0.js"
+        },
+        {
+            "priority":1000,
+            "url": "scripts/RouteOptixPOD/RouteOptixPOD_project-0.1.js"
+        },
+        {
+            "priority":1000,
+            "url": "scripts/RouteOptixPOD/RouteOptixPOD-0.1.js"
+        },
+    ],
+    "config": {
+        "disabled": false,
+        "name*": "Route Optix POD",
+        "helpUrl": "https://htmlpreview.github.io/?https://github.com/CarbonMan/IoTKeys/blob/master/scripts/RouteOptixPOD/help/help-0.1.html",
+        "process": {
+            "scan": [],
+            "save": []
+        }
+    },
+    "version": "0.1.1"
+}
