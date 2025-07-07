@@ -1,4 +1,4 @@
-X2.prototype.login = function () {
+F3.prototype.login = function () {
   return new Promise((resolve, reject) => {
     const me = this;
 
