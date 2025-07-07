@@ -20,13 +20,13 @@ RouteOptix.prototype.Config = function(){
   this.options = function($div, instance){
     let settings = `<div class="field">
         <label>Username</label>
-        <input type="text" class="instanceForm" id="centaurUsername" placeholder="user name" value="${instance.centaurUsername || ''}">
+        <input type="text" class="instanceForm" id="routeOptixUsername" placeholder="user name" value="${instance.routeOptixUsername || ''}">
       </div><div class="field">
         <label>Password</label>
-        <input type="text" class="instanceForm" id="centaurPassword" placeholder="password" value="${instance.centaurPassword || ''}">
+        <input type="text" class="instanceForm" id="routeOptixPassword" placeholder="password" value="${instance.routeOptixPassword || ''}">
       </div><div class="field">
         <label>Server host</label>
-        <input type="text" class="instanceForm" id="centaurHost" placeholder="host" value="${instance.centaurHost || ''}">
+        <input type="text" class="instanceForm" id="routeOptixHost" placeholder="host" value="${instance.routeOptixHost || ''}">
       </div>`;
     $div.html(settings);
   };
@@ -35,10 +35,9 @@ RouteOptix.prototype.Config = function(){
   * Called by the app when the user clicks save
   */
   this.saveOptions = function(instance){
-      instance.centaurHost = $("#centaurHost").val();
-      instance.centaurScript = $("#centaurScript").val();
-      instance.centaurUsername = $("#centaurUsername").val();
-      instance.centaurPassword = $("#centaurPassword").val();
+      instance.routeOptixHost = $("#routeOptixHost").val();
+      instance.routeOptixUsername = $("#routeOptixUsername").val();
+      instance.routeOptixPassword = $("#routeOptixPassword").val();
   };
   
 };
