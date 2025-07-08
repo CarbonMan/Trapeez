@@ -15,7 +15,7 @@
         {
             "priority":1000,
             "url": "scripts/RouteOptixPOD/RouteOptixPOD-0.1.js"
-        },
+        }
     ],
     "config": {
         "disabled": false,
