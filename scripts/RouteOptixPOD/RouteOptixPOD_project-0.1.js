@@ -12,7 +12,7 @@ function RouteOptixProject(){
 * Config is used only in the configuration page
 * for editing settings.
 */
-RouteOptix.prototype.Config = function(){
+RouteOptixPOD.prototype.Config = function(){
   /**
   * Create the interface in the app for modifying 
   * the Centaur POD options
