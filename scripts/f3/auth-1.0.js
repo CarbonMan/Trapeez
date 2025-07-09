@@ -24,7 +24,7 @@ F3.prototype.login = function () {
 
     // --- Fire the POST -----------------------------------------------------
     cordova.plugin.http.post(
-      `${me.url}/authenticate`,  // changed endpoint to match FastAPI
+      `${me.url}/device/login`,  // changed endpoint to match FastAPI
       payload,                   // request body as JSON
       headers,
       (resp) => {               // success callback
