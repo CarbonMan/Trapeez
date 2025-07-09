@@ -43,7 +43,7 @@ RouteOptixPOD.prototype.Config = function(){
 };
 
 
-document.addEventListener('ROUTE_OPTIX_READY', function (e) {
+document.addEventListener('ROUTEOPTIX_POD_READY', function (e) {
   console.log('Centaur project added');
   e.detail.project = new RouteOptixProject();
 }, false);
