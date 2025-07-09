@@ -47,7 +47,7 @@ function RouteOptixPOD(){
   //     ev.transfer = true;
   //   });
   // }
-  let ev = new CustomEvent('CENTAUR_POD_READY', {detail: this});
+  let ev = new CustomEvent('ROUTEOPTIX_POD_READY', {detail: this});
   document.dispatchEvent(ev);
 }
 
