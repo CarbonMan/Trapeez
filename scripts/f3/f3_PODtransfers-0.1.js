@@ -82,7 +82,7 @@ class F3_PODtransfers {
      */
 	 loggedIn(rq, cb) {
 		  const me   = this;
-		  const url  = `${me.f3.host}/${me.f3.script}/api/pod`;
+		  const url  = `${me.f3.host}/api/statusUpdate`;
 
 		  // --- headers: let server know we're posting url-encoded form data ----
 		  //const headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
