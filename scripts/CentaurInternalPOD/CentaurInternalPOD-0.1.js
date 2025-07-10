@@ -71,6 +71,11 @@ InternalPOD.prototype.Transfers = function(opts){
   */
   scanner.on('signatureTransfer', (ev)=>{
     let p = new Promise((resolve, reject)=>{
+      const action = sessionStorage.getItem('action');
+      if (action && action != 'CENTAUR_POD'){
+        resolve();
+        return;
+      }
       console.log("Centaur POD processing");
       console.dir(ev);
       ev.inProgress = true;
