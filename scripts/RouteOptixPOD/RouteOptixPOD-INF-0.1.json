@@ -9,6 +9,10 @@
             "url": "scripts/f3/auth-1.0.js"
         },
         {
+            "priority":10,
+            "url": "scripts/f3/f3_PODtransfers-0.1.js"
+        },
+        {
             "priority":1000,
             "url": "scripts/RouteOptixPOD/RouteOptixPOD_project-0.1.js"
         },
@@ -26,5 +30,5 @@
             "save": []
         }
     },
-    "version": "0.1.3"
+    "version": "0.1.4"
 }
