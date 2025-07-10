@@ -8,7 +8,7 @@ class F3_PODtransfers {
         this.scanBuffer = [];
         this.bufferPtr = 0;
         this.$div = opts.$div;
-        this.x2 = new X2(opts);
+        this.f3 = new F3(opts);
     }
 
     /**
@@ -38,7 +38,7 @@ class F3_PODtransfers {
         }
         request.startingTransfer = true;
         me.setDisplayState(request);
-        me.x2.login()
+        me.f3.login()
             .then((uuid) => {
                 // docDetails is intercepted by the POD upload route on the server
                 // and a message constructed to the application.
@@ -82,7 +82,7 @@ class F3_PODtransfers {
      */
 	 loggedIn(rq, cb) {
 		  const me   = this;
-		  const url  = `${me.x2.host}/${me.x2.script}/api/pod`;
+		  const url  = `${me.f3.host}/${me.f3.script}/api/pod`;
 
 		  // --- headers: let server know we're posting url-encoded form data ----
 		  //const headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
@@ -150,7 +150,7 @@ class F3_PODtransfers {
     // loggedIn(rq) {
         // let me = this;
         // $.ajax({
-            // url: me.x2.host + "/" + me.x2.script + "/api/pod",
+            // url: me.f3.host + "/" + me.f3.script + "/api/pod",
             // type: 'POST',
             // data: rq,
             // crossDomain: true,
