@@ -1,10 +1,10 @@
 function CentaurProject(){
   document.addEventListener('LOAD_PLUGIN_ACTIONS', function (ev) {
     // Attach a POD action onto the actions combobox in the configuration page
-    // ev.detail.actions.push({
-    //   name: "POD",
-    //   value: "DROP"
-    // });
+    ev.detail.actions.push({
+       name: "CENTAUR POD",
+       value: "CENTAUR_POD"
+    });
   });
 }
 
