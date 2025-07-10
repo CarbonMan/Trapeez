@@ -57,8 +57,8 @@ function RouteOptixPOD(){
 RouteOptixPOD.prototype.Transfers = function(opts){
   let scanner = opts.hostController;
   let instance = opts.instance;
-  // CentaurPODtransfers is in centaurTransfers-0.1.js
-  let comms = new PODtransfers({
+  
+  let comms = new F3_PODtransfers({
     username: instance.routeOptixUsername,
     password: instance.routeOptixPassword,
     host: instance.routeOptixHost
