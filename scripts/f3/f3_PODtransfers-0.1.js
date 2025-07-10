@@ -33,7 +33,7 @@ class F3_PODtransfers {
             me.bufferPtr++;
             if (me.bufferPtr == me.scanBuffer.length)
                 me.bufferPtr = 0;
-            me.to = setTimeout(() => { me.transfer() }, 1000);
+            me.to = setTimeout(me.transfer, 1000);
             return;
         }
         request.startingTransfer = true;
@@ -73,7 +73,7 @@ class F3_PODtransfers {
         }
         // Continue to try, if it was a server fault then it will just resume
         // when the problem is resolved.
-        this.to = setTimeout(() => { this.transfer() }, 1000);
+        this.to = setTimeout(this.transfer, 1000);
 
     }
 
@@ -142,7 +142,7 @@ class F3_PODtransfers {
 				cb && cb('Login failed');  // invoke caller hook
 
 				// keep retrying every second – same logic as original
-				me.to = setTimeout(() => me.transfer(), 1000);
+				me.to = setTimeout(me.transfer, 1000);
 			  }
 			);
 		}
