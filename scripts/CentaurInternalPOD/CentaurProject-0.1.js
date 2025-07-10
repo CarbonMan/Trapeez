@@ -1,3 +1,4 @@
+// CentaurProject-0.1.js
 function CentaurProject(){
   document.addEventListener('LOAD_PLUGIN_ACTIONS', function (ev) {
     // Attach a POD action onto the actions combobox in the configuration page
