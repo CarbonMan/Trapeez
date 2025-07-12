@@ -73,7 +73,7 @@ class F3_PODtransfers {
         }
         // Continue to try, if it was a server fault then it will just resume
         // when the problem is resolved.
-        this.to = setTimeout(this.transfer, 1000);
+        this.to = setTimeout(this.transfer.bind(this), 1000);
 
     }
 
@@ -147,69 +147,6 @@ class F3_PODtransfers {
 			);
 		}
 
-    // loggedIn(rq) {
-        // let me = this;
-        // $.ajax({
-            // url: me.f3.host + "/" + me.f3.script + "/api/pod",
-            // type: 'POST',
-            // data: rq,
-            // crossDomain: true,
-            // dataType: "xml"
-        // })
-            // .done(function (rsp) {
-                // if (rsp == "<x2><ERROR><DESCRIPTION>Invalid booking number</DESCRIPTION></ERROR></x2>") {
-                    // alert(rq.reference + " is an invalid booking number");
-                    // for (var r = 0; r < me.scanBuffer.length; r++) {
-                        // if (me.scanBuffer[r].id = rq.id) {
-                            // me.scanBuffer[r].reviewed = false;
-                            // return;
-                        // }
-                    // }
-                // }
-
-                // // Remove from pending
-                // var item = me.scanBuffer.splice(this.bufferPtr, 1)[0];
-                // if (me.$div) {
-                    // if (currentEditId == rq.id) {
-                        // $("#inputFields").empty();
-                        // $("#inputDiv").hide();
-                    // }
-                    // // Remove from the list
-                    // $("#" + item.id).remove();
-                // }
-                // if (typeof host != 'undefined') {
-                    // // Running within IOTkeys
-                    // // Tell the host to remove the image file
-                    // var msg = {
-                        // type: "delete",
-                        // fileName: item.fileName,
-                        // details: item
-                    // };
-                    // host.sendToHost(JSON.stringify(msg));
-                // } else if (rq.done) {
-                    // rq.done();
-                // }
-                // // Do the next pending POD
-                // me.bufferPtr++;
-                // if (me.bufferPtr >= me.scanBuffer.length)
-                    // me.bufferPtr = 0;
-                // // Pause for 1 second to not overload the server
-                // me.to = setTimeout(() => { me.transfer() }, 1000);
-            // })
-            // .fail(function (jqXHR, textStatus, errorThrown) {
-                // var req = me.scanBuffer[me.bufferPtr];
-                // req.startingTransfer = false;
-                // req.transferFailed = true;
-                // me.setDisplayState(req);
-                // if (rq.error) {
-                    // rq.error("Login failed");
-                // }
-                // // Continue to try, if it was a server fault then it will just resume
-                // // when the problem is resolved.
-                // me.to = setTimeout(() => { me.transfer() }, 1000);
-            // });
-    // }
-
     getISOdate(dt) {
         if (!dt)
             dt = new Date()
@@ -264,7 +201,7 @@ class F3_PODtransfers {
     */
     startTransfers() {
         clearTimeout(this.to);
-        this.to = setTimeout(() => { this.transfer() }, 1000);
+        this.to = setTimeout(this.transfer.bind(this), 1000);
     }
 
 }
