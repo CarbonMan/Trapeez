@@ -29,16 +29,17 @@ F3.prototype.login = function () {
       headers,
       (resp) => {               // success callback
         try {
-          const data = JSON.parse(resp.data);
-          
-          // Check for error in response
-          if (data.error) {
-            return reject(data.error);
-          }
-
           // Get session ID from response headers or body
-          const sessionId = resp.headers['Authorization'] || resp.headers['authorization'] || data.session_id;
+          let sessionId = resp.headers['Authorization'] || resp.headers['authorization'];
+          if (!sessionId){
+              const data = JSON.parse(resp.data);
           
+              // Check for error in response
+              if (data.error) {
+                return reject(data.error);
+              }
+              sessionId = data.session_id;
+          }
           if (sessionId) {
             me.uuid = sessionId;
             me.$div && $('#sessionStatus').text('Connected');
