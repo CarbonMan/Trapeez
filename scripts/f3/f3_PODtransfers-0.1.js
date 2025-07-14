@@ -142,7 +142,7 @@ class F3_PODtransfers {
 				cb && cb('Login failed');  // invoke caller hook
 
 				// keep retrying every second – same logic as original
-				me.to = setTimeout(me.transfer, 1000);
+				me.to = setTimeout(() => me.transfer(), 1000);
 			  }
 			);
 		}
