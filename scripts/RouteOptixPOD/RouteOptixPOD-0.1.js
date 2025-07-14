@@ -68,12 +68,11 @@ RouteOptixPOD.prototype.Transfers = function(opts){
   * Fired from the app for background transfers
   */
   scanner.on('signatureTransfer', (ev)=>{
+    const action = ev.data.action;
+    if (action && action != 'RO_DROP'){
+       return;
+    }
     let p = new Promise((resolve, reject)=>{
-      const action = ev.data.action;
-      if (action && action != 'RO_DROP'){
-        resolve();
-        return;
-      }
       console.log("RouteOptix processing");
       console.dir(ev);
       ev.inProgress = true;
