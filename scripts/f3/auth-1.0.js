@@ -43,6 +43,10 @@ F3.prototype.login = function () {
           if (sessionId) {
             me.uuid = sessionId;
             me.$div && $('#sessionStatus').text('Connected');
+            cordova.plugin.http.setCookie(
+              me.host,                 // scheme+host, *no* path
+              `Authorization=${sessionId}; Path=/; Max-Age=604800`
+            );
             return resolve(sessionId);
           }
 
