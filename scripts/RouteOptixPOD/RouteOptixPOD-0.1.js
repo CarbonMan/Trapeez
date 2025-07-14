@@ -69,7 +69,7 @@ RouteOptixPOD.prototype.Transfers = function(opts){
   */
   scanner.on('signatureTransfer', (ev)=>{
     let p = new Promise((resolve, reject)=>{
-      const action = sessionStorage.getItem('action');
+      const action = ev.data.action;
       if (action && action != 'RO_DROP'){
         resolve();
         return;
