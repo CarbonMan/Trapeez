@@ -54,6 +54,10 @@ class F3_PODtransfers {
                         mimeType: "image/jpeg",
                         dt: me.getISOdate()
                     };
+			if (content.gps){
+				docDetails.lat = content.gps.latitude;
+				docDetails.lon = content.gps.longitude;
+			}
                     // TODO: Implement as a promise.all
                     me.loggedIn(docDetails, request.done);
                 });
