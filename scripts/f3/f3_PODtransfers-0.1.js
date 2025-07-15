@@ -142,7 +142,10 @@ class F3_PODtransfers {
 				req.startingTransfer = false;
 				req.transferFailed   = true;
 				me.setDisplayState(req);
-
+				if (err && err.status==307){
+					// HTTP_307_TEMPORARY_REDIRECT
+					me.f3.uuid = null;
+				}
 				cb && cb('Login failed');  // invoke caller hook
 
 				// keep retrying every second – same logic as original
