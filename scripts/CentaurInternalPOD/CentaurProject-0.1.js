@@ -3,8 +3,12 @@ function CentaurProject(){
   document.addEventListener('LOAD_PLUGIN_ACTIONS', function (ev) {
     // Attach a POD action onto the actions combobox in the configuration page
     ev.detail.actions.push({
-       name: "CENTAUR POD",
-       value: "CENTAUR_POD"
+         name: "CENTAUR POD",
+         value: "CENTAUR_POD"
+       },
+       {
+         name: "Centaur runsheets",
+         value: "CENTAUR_RUNSHEETS"
     });
   });
 }
