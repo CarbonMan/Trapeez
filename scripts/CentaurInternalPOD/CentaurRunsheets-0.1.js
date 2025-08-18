@@ -1,5 +1,6 @@
-InternalPOD.prototype.Runsheets = class{
-  constructor(){
+InternalPOD_Runsheets = class{
+  constructor(instance){
+    this.instance = instance
     const action = sessionStorage.getItem('action');
     if (location.href == 'index.html'){
       scanner.on('scan', (ev)=>{
@@ -18,7 +19,7 @@ document.addEventListener('PLUGIN_LOADED', function (ev) {
   // From src\www\js\scriptManagement.js
   if (ev.detail.instance.parent == 'Centaur_I_POD'){
     //const internalPOD = $T.getInstanceByName({name: 'InternalPOD'});
-    runsheets = new ev.detail.instance.Runsheets();
+    runsheets = new InternalPOD_Runsheets(ev.detail.instance);
     console.log('internalPOD.Runsheets plugin instantiated');
   }
 });
