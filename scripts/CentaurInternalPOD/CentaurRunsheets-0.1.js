@@ -16,7 +16,7 @@ InternalPOD.prototype.Runsheets = class{
 let runsheets = null;
 document.addEventListener('PLUGIN_LOADED', function (ev) {
   // From src\www\js\scriptManagement.js
-  if (ev.detail.name == 'InternalPOD'){
+  if (ev.detail.instance.parent == 'Centaur_I_POD'){
     //const internalPOD = $T.getInstanceByName({name: 'InternalPOD'});
     runsheets = ev.detail.instance.Runsheets();
     console.log('internalPOD.Runsheets plugin instantiated');
