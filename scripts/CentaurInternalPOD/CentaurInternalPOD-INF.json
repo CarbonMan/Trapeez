@@ -19,6 +19,10 @@
         {
             "priority":1001,
             "url": "scripts/CentaurInternalPOD/CentaurInternalPOD-0.1.js"
+        },
+        {
+            "priority":1001,
+            "url": "scripts/CentaurInternalPOD/CentaurRunsheets-0.1.js"
         }
     ],
     "config": {
