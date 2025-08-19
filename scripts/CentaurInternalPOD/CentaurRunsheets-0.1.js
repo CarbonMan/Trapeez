@@ -3,17 +3,46 @@ InternalPOD_Runsheets = class{
     console.log('InternalPOD_Runsheets instantiated');
     // Store reference to the plugin instance so we can access it later. Can't store a reference
     // See pluginContainer.instances
+    this.pluginId = pluginInstance.parent;
     this.pluginInstanceName = pluginInstance.name;
     if (location.href.endsWith('index.html')){
       barcode.on('scan', (ev)=>{
           const action = sessionStorage.getItem('action');
           console.log('InternalPOD - Scan event trapped');
-          if (action && action != 'CENTAUR_RUNSHEETS'){
+          if (!action || action != 'CENTAUR_RUNSHEETS'){
             return;
           }
           // Change the destination to frame.html
+          instance = $T.plugins[this.pluginId].instances[this.pluginInstanceName];
+          x2 = new X2(instance);
+          x2.login()
+          .then((uuid) => {
+            const url  = `${instance.centaurHost}/${instance.centaurScript}`;
+            // --- Build XML payload --------------------------------------------------
+            const xml = `<x class="tiRnHeader.allOpenRunsheets"></x>`;
+            // --- Configure the advanced-http plugin ---------------------------------
+            cordova.plugin.http.setDataSerializer('utf8');       // raw UTF-8 string
+            const headers = { 'Content-Type': 'application/xml' };
+        
+            // --- Fire the POST ------------------------------------------------------
+            cordova.plugin.http.post(
+              url,
+              xml,            
+              headers,
+              (resp) => {     // success callback
+                console.dir(resp);
+              },
+			        (err) => {
+                console.error(err);
+              }
+            );
+          })
+          .catch((e) => {
+            console.error(e);
+          });
           ev.data.target = 'frame.html';
       });
+    }else if (location.href.endsWith('frame.html')){
     }
   }
 };
