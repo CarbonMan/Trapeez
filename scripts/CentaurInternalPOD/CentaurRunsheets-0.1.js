@@ -1,7 +1,8 @@
 InternalPOD_Runsheets = class{
   constructor(pluginInstance) {
+    console.log('InternalPOD_Runsheets instantiated');
     // Store reference to the plugin instance so we can access it later
-    this.pluginInstance = pluginInstance;
+    //this.pluginInstance = pluginInstance;
     const action = sessionStorage.getItem('action');
     if (location.href == 'index.html'){
       barcode.on('scan', (ev)=>{
