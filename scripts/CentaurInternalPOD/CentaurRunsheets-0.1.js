@@ -4,9 +4,9 @@ InternalPOD_Runsheets = class{
     // Store reference to the plugin instance so we can access it later. Can't store a reference
     // See pluginContainer.instances
     this.pluginInstanceName = pluginInstance.name;
-    const action = sessionStorage.getItem('action');
     if (location.href.endsWith('index.html')){
       barcode.on('scan', (ev)=>{
+          const action = sessionStorage.getItem('action');
           console.log('InternalPOD - Scan event trapped');
           if (action && action != 'CENTAUR_RUNSHEETS'){
             return;
