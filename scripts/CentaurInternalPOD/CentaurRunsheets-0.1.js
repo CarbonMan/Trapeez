@@ -5,7 +5,7 @@ InternalPOD_Runsheets = class{
     // See pluginContainer.instances
     this.pluginInstanceName = pluginInstance.name;
     const action = sessionStorage.getItem('action');
-    if (location.href == 'index.html'){
+    if (location.href.endsWith('index.html')){
       barcode.on('scan', (ev)=>{
           console.log('InternalPOD - Scan event trapped');
           if (action && action != 'CENTAUR_RUNSHEETS'){
