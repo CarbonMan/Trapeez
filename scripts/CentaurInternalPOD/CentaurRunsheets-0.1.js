@@ -29,7 +29,7 @@ InternalPOD_Runsheets = class{
 			  }
 	          me.x2.login()
 	          .then((uuid) => {
-	            const url  = `${instance.centaurHost}/${instance.centaurScript}`;
+	            const url  = `${instance.centaurHost}/common/foxisapi.dll/${instance.centaurScript.trim()}.x2.isapi`;
 	            // --- Build XML payload --------------------------------------------------
 	            const xml = `<x class="tiRnHeader.getRunsheet"></x>`;
 				const encodedXml = encodeURIComponent(xml);
