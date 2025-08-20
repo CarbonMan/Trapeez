@@ -3,6 +3,8 @@ InternalPOD_Runsheets = class{
     console.log('InternalPOD_Runsheets instantiated');
     // Store reference to the plugin instance so we can access it later. Can't store a reference
     // See pluginContainer.instances
+	this.x2 = null;
+	const me = this;
     this.pluginId = pluginInstance.parent;
     this.pluginInstanceName = pluginInstance.name;
     if (location.href.endsWith('index.html')){
@@ -17,8 +19,15 @@ InternalPOD_Runsheets = class{
 	          // Change the destination to frame.html
 			  ev.target = 'frame.html';
 	          instance = $T.plugins[this.pluginId].instances[this.pluginInstanceName];
-	          x2 = new X2(instance);
-	          x2.login()
+			  if (!me.x2){
+		          me.x2 = new X2({
+					  username: instance.centaurUsername,
+					  password: instance.centaurPassword,
+					  host: instance.centaurHost,
+					  script: instance.centaurScript,
+				  });
+			  }
+	          me.x2.login()
 	          .then((uuid) => {
 	            const url  = `${instance.centaurHost}/${instance.centaurScript}`;
 	            // --- Build XML payload --------------------------------------------------
