@@ -32,14 +32,16 @@ InternalPOD_Runsheets = class{
 	            const url  = `${instance.centaurHost}/${instance.centaurScript}`;
 	            // --- Build XML payload --------------------------------------------------
 	            const xml = `<x class="tiRnHeader.getRunsheet"></x>`;
+				const encodedXml = encodeURIComponent(xml);
+				const urlWithParams = `${url}?xml=${encodedXml}`;
 	            // --- Configure the advanced-http plugin ---------------------------------
 	            cordova.plugin.http.setDataSerializer('utf8');       // raw UTF-8 string
 	            const headers = { 'Content-Type': 'application/xml' };
 	        
 	            // --- Fire the POST ------------------------------------------------------
 	            cordova.plugin.http.get(
-	              url,
-	              xml,            
+	              urlWithParams,
+					{},            
 	              headers,
 	              (resp) => {     // success callback
 	                console.dir(resp);
