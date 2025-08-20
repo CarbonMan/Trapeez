@@ -37,14 +37,14 @@ InternalPOD_Runsheets = class{
 	            const headers = { 'Content-Type': 'application/xml' };
 	        
 	            // --- Fire the POST ------------------------------------------------------
-	            cordova.plugin.http.post(
+	            cordova.plugin.http.get(
 	              url,
 	              xml,            
 	              headers,
 	              (resp) => {     // success callback
 	                console.dir(resp);
 	              },
-				        (err) => {
+				  (err) => {
 	                console.error(err);
 	              }
 	            );
