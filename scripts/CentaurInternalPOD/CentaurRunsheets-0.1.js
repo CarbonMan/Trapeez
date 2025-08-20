@@ -33,7 +33,7 @@ InternalPOD_Runsheets = class{
 	            // --- Build XML payload --------------------------------------------------
 	            const xml = `<x class="tiRnHeader.getRunsheet"></x>`;
 				const encodedXml = encodeURIComponent(xml);
-				const urlWithParams = `${url}?xml=${encodedXml}`;
+				const urlWithParams = `${url}?${encodedXml}`;
 	            // --- Configure the advanced-http plugin ---------------------------------
 	            cordova.plugin.http.setDataSerializer('utf8');       // raw UTF-8 string
 	            const headers = { 'Content-Type': 'application/xml' };
