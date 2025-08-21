@@ -31,7 +31,11 @@ InternalPOD_Runsheets = class{
 	          .then((uuid) => {
 	            const url  = `${instance.centaurHost}/common/foxisapi.dll/${instance.centaurScript.trim()}.x2.isapi`;
 	            // --- Build XML payload --------------------------------------------------
-	            const xml = `<x uuid='${uuid}'><PROCESS class="tiRnHeader.getRunsheet">${ev.scanId}</PROCESS></x>`;
+				let xml;
+				if (ev.scanId)
+	               xml = `<x uuid='${uuid}'><PROCESS class="tiRnHeader.getRunsheet">${ev.scanId}</PROCESS></x>`;
+				else
+				  xml = `<x uuid='${uuid}'><PROCESS class="tiRnHeader.getActiveRunsheets">${ev.scanId}</PROCESS></x>`;
 				const encodedXml = encodeURIComponent(xml);
 				const urlWithParams = `${url}?${encodedXml}`;
 	            // --- Configure the advanced-http plugin ---------------------------------
