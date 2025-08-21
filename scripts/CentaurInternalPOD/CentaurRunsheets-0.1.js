@@ -77,8 +77,8 @@ InternalPOD_Runsheets = class{
 	<table class="table table-striped table-hover">
 	    <thead class="table-dark">
 	        <tr>
-	            <th>RUNNUMBER</th>
-	            <th>DESCRIPT</th>
+	            <th>RUN</th>
+	            <th>ZONE</th>
 	        </tr>
 	    </thead>
 	    <tbody>`;
