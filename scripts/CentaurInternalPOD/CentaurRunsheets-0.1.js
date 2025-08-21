@@ -48,7 +48,11 @@ InternalPOD_Runsheets = class{
 					{},            
 	              headers,
 	              (resp) => {     // success callback
-	                console.dir(resp);
+	                //console.dir(resp);
+					const main = this.xmlToTable(resp.data);
+					ev.target = 'frame.html';
+                    sessionStorage.setItem('frame_main', main);
+					resolve();
 	              },
 				  (err) => {
 	                console.error(err);
@@ -64,6 +68,37 @@ InternalPOD_Runsheets = class{
     }else if (location.href.endsWith('frame.html')){
     }
   }
+	
+  xmlToTable(xmlString) {
+	    const parser = new DOMParser();
+	    const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+	    const tuples = xmlDoc.getElementsByTagName("TUPLE");
+	    let tableHtml = `
+	<table class="table table-striped table-hover">
+	    <thead class="table-dark">
+	        <tr>
+	            <th>RUNNUMBER</th>
+	            <th>DESCRIPT</th>
+	        </tr>
+	    </thead>
+	    <tbody>`;
+	
+	    for (let tuple of tuples) {
+	        const refno = tuple.getElementsByTagName("REFNO")[0]?.textContent || '';
+	        const runnumber = tuple.getElementsByTagName("RUNNUMBER")[0]?.textContent || '';
+	        const descript = tuple.getElementsByTagName("DESCRIPT")[0]?.textContent || '';
+	        tableHtml += `
+	        <tr onclick="runsheets.show('${refno}')" style="cursor: pointer;">
+	            <td>${runnumber}</td>
+	            <td>${descript}</td>
+	        </tr>`;
+	    }
+	
+	    tableHtml += `
+	    </tbody>
+	</table>`;
+	    return tableHtml;
+	}
 };
 let runsheets = null;
 document.addEventListener('PLUGIN_LOADED', function (ev) {
