@@ -66,6 +66,8 @@ InternalPOD_Runsheets = class{
 	      });
 	  });
     }else if (location.href.endsWith('frame.html')){
+		const tableHTML = sessionStorage.getItem('frame_main');
+		document.getElementById('main').innerHTML = tableHTML;
     }
   }
 	
