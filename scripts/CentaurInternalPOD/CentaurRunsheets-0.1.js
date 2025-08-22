@@ -51,7 +51,7 @@ InternalPOD_Runsheets = class{
 	                //console.dir(resp);
 					const main = this.xmlToTable(resp.data);
 					ev.target = 'frame.html';
-                    sessionStorage.setItem('frame_main', main);
+                    sessionStorage.setItem('frame_1_main', main);
 					resolve();
 	              },
 				  (err) => {
@@ -65,8 +65,8 @@ InternalPOD_Runsheets = class{
 	          });
 	      });
 	  });
-    }else if (location.href.endsWith('frame.html')){
-		const tableHTML = sessionStorage.getItem('frame_main');
+    }else if (location.href.endsWith('frame_1.html')){
+		const tableHTML = sessionStorage.getItem('frame_1_main');
 		document.getElementById('main').innerHTML = tableHTML;
     }
   }
