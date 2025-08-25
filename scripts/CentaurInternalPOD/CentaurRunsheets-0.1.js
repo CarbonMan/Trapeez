@@ -17,7 +17,7 @@ InternalPOD_Runsheets = class{
 	            return;
 	          }
 	          // Change the destination to frame.html
-			  ev.target = 'frame.html';
+			  ev.target = 'frame_1.html';
 	          instance = $T.plugins[this.pluginId].instances[this.pluginInstanceName];
 			  if (!me.x2){
 		          me.x2 = new X2({
@@ -35,7 +35,7 @@ InternalPOD_Runsheets = class{
 				if (ev.scanId)
 	               xml = `<x uuid='${uuid}'><PROCESS class="tiRnHeader.getRunsheet">${ev.scanId}</PROCESS></x>`;
 				else
-				  xml = `<x uuid='${uuid}'><PROCESS class="tiRnHeader.getActiveRunsheets">${ev.scanId}</PROCESS></x>`;
+				  xml = `<x uuid='${uuid}'><PROCESS class="tiRnHeader.getActiveRunsheets"/></x>`;
 				const encodedXml = encodeURIComponent(xml);
 				const urlWithParams = `${url}?${encodedXml}`;
 	            // --- Configure the advanced-http plugin ---------------------------------
@@ -49,8 +49,8 @@ InternalPOD_Runsheets = class{
 	              headers,
 	              (resp) => {     // success callback
 	                //console.dir(resp);
-					const main = this.xmlToTable(resp.data);
-					ev.target = 'frame.html';
+					const main = this.xmlToRunsheetList(resp.data);
+					ev.target = 'frame_1.html';
                     sessionStorage.setItem('frame_1_main', main);
 					resolve();
 	              },
@@ -66,12 +66,95 @@ InternalPOD_Runsheets = class{
 	      });
 	  });
     }else if (location.href.endsWith('frame_1.html')){
+        //const scriptTag = document.createElement('script');
+		//scriptTag.textContent =  = this.runsheetListCode();
+        //document.head.appendChild(scriptTag);
 		const tableHTML = sessionStorage.getItem('frame_1_main');
+		document.getElementById('main').innerHTML = tableHTML;
+    }else if (location.href.endsWith('frame_2.html')){
+        //const scriptTag = document.createElement('script');
+		//scriptTag.textContent =  = this.runsheetListCode();
+        //document.head.appendChild(scriptTag);
+		const tableHTML = sessionStorage.getItem('frame_2_main');
 		document.getElementById('main').innerHTML = tableHTML;
     }
   }
+
+  showRunsheetItems(id){
+	  if (!id) return;
+	  const me = this;
+	  instance = $T.plugins[this.pluginId].instances[this.pluginInstanceName];
+	  if (!me.x2){
+		  me.x2 = new X2({
+			  username: instance.centaurUsername,
+			  password: instance.centaurPassword,
+			  host: instance.centaurHost,
+			  script: instance.centaurScript,
+		  });
+	  }
+	  me.x2.login()
+	  .then((uuid) => {
+		const url  = `${instance.centaurHost}/common/foxisapi.dll/${instance.centaurScript.trim()}.x2.isapi`;
+		// --- Build XML payload --------------------------------------------------
+		let xml;
+		xml = `<x uuid='${uuid}'><PROCESS class="tiRnHeader.getRunsheetEntries">${id}</PROCESS></x>`;
+		const encodedXml = encodeURIComponent(xml);
+		const urlWithParams = `${url}?${encodedXml}`;
+		// --- Configure the advanced-http plugin ---------------------------------
+		cordova.plugin.http.setDataSerializer('utf8');       // raw UTF-8 string
+		const headers = { 'Content-Type': 'application/xml' };
 	
-  xmlToTable(xmlString) {
+		// --- Fire the POST ------------------------------------------------------
+		cordova.plugin.http.get(
+		  urlWithParams,
+			{},            
+		  headers,
+		  (resp) => {     // success callback
+			//console.dir(resp);
+			const main = this.xmlToTable(resp.data);
+			sessionStorage.setItem('frame_2_main', main);
+			location.href = 'frame_2.html';
+		  },
+		  (err) => {
+			console.error(err);
+		  }
+		);
+	  })
+	  .catch((e) => {
+		console.error(e);
+	  });
+	});
+  }
+
+  xmlToRunsheetEntries(xmlString) {
+	    const parser = new DOMParser();
+	    const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+	    const tuples = xmlDoc.getElementsByTagName("TUPLE");
+	    let tableHtml = `
+	<table class="table table-striped table-hover">
+	    <thead class="table-dark">
+	        <tr>
+	            <th>JOB ID</th>
+	        </tr>
+	    </thead>
+	    <tbody>`;
+	
+	    for (let tuple of tuples) {
+	        const refno = tuple.getElementsByTagName("REFNO")[0]?.textContent || '';
+	        const jobId = tuple.getElementsByTagName("CONNOTE")[0]?.textContent || '';
+	        tableHtml += `
+	        <tr onclick="runsheets.processItem('${refno}')" style="cursor: pointer;">
+	            <td>${jobId}</td>
+	        </tr>`;
+	    }
+	
+	    tableHtml += `
+	    </tbody>
+	</table>`;
+	    return tableHtml;
+	}
+
+  xmlToRunsheetList(xmlString) {
 	    const parser = new DOMParser();
 	    const xmlDoc = parser.parseFromString(xmlString, "text/xml");
 	    const tuples = xmlDoc.getElementsByTagName("TUPLE");
@@ -90,7 +173,7 @@ InternalPOD_Runsheets = class{
 	        const runnumber = tuple.getElementsByTagName("RUNNUMBER")[0]?.textContent || '';
 	        const descript = tuple.getElementsByTagName("DESCRIPT")[0]?.textContent || '';
 	        tableHtml += `
-	        <tr onclick="runsheets.show('${refno}')" style="cursor: pointer;">
+	        <tr onclick="runsheets.showRunsheetItems('${refno}')" style="cursor: pointer;">
 	            <td>${runnumber}</td>
 	            <td>${descript}</td>
 	        </tr>`;
