@@ -80,6 +80,11 @@ InternalPOD_Runsheets = class {
         }
     }
 
+	processItem(jobNumber){
+		sessionStorage.setItem('currentBatchId', jobNumber);
+		location.href = 'onBarcodeScanned.html';
+	}
+
     showRunsheetItems(id) {
         if (!id) return;
         const me = this;
@@ -143,7 +148,7 @@ InternalPOD_Runsheets = class {
             const refno = tuple.getElementsByTagName("REFNO")[0]?.textContent || '';
             const jobId = tuple.getElementsByTagName("CONNOTE")[0]?.textContent || '';
             tableHtml += `
-	        <tr onclick="runsheets.processItem('${refno}')" style="cursor: pointer;">
+	        <tr onclick="runsheets.processItem('${jobId}')" style="cursor: pointer;">
 	            <td>${jobId}</td>
 	        </tr>`;
         }
