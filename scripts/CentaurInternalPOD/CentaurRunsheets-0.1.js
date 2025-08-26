@@ -140,6 +140,9 @@ InternalPOD_Runsheets = class {
 	    <thead class="table-dark">
 	        <tr>
 	            <th>JOB ID</th>
+			    <th>NAME</th>
+	            <th>ITEMS</th>
+			    <th colspan='2'>ADDRESS</th>
 	        </tr>
 	    </thead>
 	    <tbody>`;
@@ -150,6 +153,10 @@ InternalPOD_Runsheets = class {
             tableHtml += `
 	        <tr onclick="runsheets.processItem('${jobId}')" style="cursor: pointer;">
 	            <td>${jobId}</td>
+			    <td>${tuple.getElementsByTagName("RECEIVERNAME")[0]?.textContent || ''}</td>
+	            <td>${tuple.getElementsByTagName("ITEMS")[0]?.textContent || ''}</td>
+			    <td>${tuple.getElementsByTagName("STREET")[0]?.textContent || ''}</td>
+			    <td>${tuple.getElementsByTagName("STREET2")[0]?.textContent || ''}</td>
 	        </tr>`;
         }
 
