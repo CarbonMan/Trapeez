@@ -111,7 +111,7 @@ InternalPOD_Runsheets = class {
                     headers,
                     (resp) => {     // success callback
                         //console.dir(resp);
-                        const main = this.xmlToTable(resp.data);
+                        const main = me.xmlToRunsheetEntries(resp.data);
                         sessionStorage.setItem('frame_2_main', main);
                         location.href = 'frame_2.html';
                     },
