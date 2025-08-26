@@ -72,7 +72,7 @@ InternalPOD.prototype.Transfers = function(opts){
   */
   scanner.on('signatureTransfer', (ev)=>{
       const action = ev.data.action;
-      if (action && action != 'CENTAUR_POD'){
+      if (action && action != 'CENTAUR_POD' && action != 'CENTAUR_RUNSHEETS'){
         return;
       }
     let p = new Promise((resolve, reject)=>{
