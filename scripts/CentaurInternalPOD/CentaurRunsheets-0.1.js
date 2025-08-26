@@ -77,6 +77,14 @@ InternalPOD_Runsheets = class {
             //document.head.appendChild(scriptTag);
             const tableHTML = sessionStorage.getItem('frame_2_main');
             document.getElementById('main').innerHTML = tableHTML;
+        } else if (location.href.endsWith('signature2.1.html')) {
+            //const scriptTag = document.createElement('script');
+            //scriptTag.textContent =  = this.runsheetListCode();
+            //document.head.appendChild(scriptTag);
+            document.addEventListener('beforeHome', function(event) {
+				event.preventDefault();
+				window.history.back();
+			});
         }
     }
 
