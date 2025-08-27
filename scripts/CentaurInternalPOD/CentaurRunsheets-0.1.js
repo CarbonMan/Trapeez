@@ -83,8 +83,8 @@ InternalPOD_Runsheets = class {
             //document.head.appendChild(scriptTag);
             document.addEventListener('beforeHome', function(event) {
 				event.preventDefault();
-				history.go(-2);
-				//window.history.back();
+				//history.go(-2);
+				history.back();
 			});
         }
     }
