@@ -111,7 +111,7 @@ InternalPOD_Runsheets = class {
                 const url = `${instance.centaurHost}/common/foxisapi.dll/${instance.centaurScript.trim()}.x2.isapi`;
                 // --- Build XML payload --------------------------------------------------
                 let xml;
-                xml = `<x uuid='${uuid}'><PROCESS class="tiRnHeader.getRunsheetEntries">${id}</PROCESS></x>`;
+                xml = `<x uuid='${uuid}'><PROCESS class="tiRnHeader.getConsolidatedEntries">${id}</PROCESS></x>`;
                 const encodedXml = encodeURIComponent(xml);
                 const urlWithParams = `${url}?${encodedXml}`;
                 // --- Configure the advanced-http plugin ---------------------------------
