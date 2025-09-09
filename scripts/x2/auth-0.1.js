@@ -28,8 +28,13 @@ X2.prototype.login = function () {
       (resp) => {     // success callback
         try {
           /* resp.data is a string – turn it into an XML document */
-          const $r = $( $.parseXML(resp.data) );
-
+          let $r = null;
+          try{
+            $r = $( $.parseXML(resp.data) );
+          }catch(e){
+            alert(`Failed to login. Response: ${resp.data}`);
+            reject();
+          }
           if (
             $r.children().length &&
             $r.children().first()[0].tagName.toLowerCase() === 'error'
