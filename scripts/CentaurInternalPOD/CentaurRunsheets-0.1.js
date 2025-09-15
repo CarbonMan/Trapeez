@@ -145,8 +145,8 @@ InternalPOD_Runsheets = class {
         const xmlDoc = parser.parseFromString(xmlString, "text/xml");
         const tuples = xmlDoc.getElementsByTagName("TUPLE");
         let tableHtml = `
-	<table class="table table-striped table-hover">
-	    <thead class="table-dark">
+	<table class="ui celled striped selectable table">
+	    <thead class="ui inverted table">
 	        <tr>
 	            <th>JOB ID</th>
 			    <th>NAME</th>
@@ -170,8 +170,9 @@ InternalPOD_Runsheets = class {
         }
 
         tableHtml += `
-	    </tbody>
-	</table>`;
+		    </tbody>
+		</table>`;
+
         return tableHtml;
     }
 
