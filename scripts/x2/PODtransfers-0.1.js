@@ -33,39 +33,41 @@ class PODtransfers {
             me.bufferPtr++;
             if (me.bufferPtr == me.scanBuffer.length)
                 me.bufferPtr = 0;
-            me.to = setTimeout(() => { me.transfer() }, 1000);
+            me.to = setTimeout(() => {
+                me.transfer()
+            }, 1000);
             return;
         }
         request.startingTransfer = true;
         me.setDisplayState(request);
         me.x2.login()
-            .then((uuid) => {
-                // docDetails is intercepted by the POD upload route on the server
-                // and a message constructed to the application.
-                let contents = request.contents;
-                contents.forEach((content) => {
-                    let docDetails = {
-                        uuid,
-                        process: 'driverPDAinterface.setStatus',
-                        id: (request.id || -1).toString(),
-                        reference: content.reference,
-                        name: content.zones[0].value,
-                        signed: content.img,
-                        mimeType: "image/jpeg",
-                        dt: me.getISOdate()
-                    };
-                    // TODO: Implement as a promise.all
-                    me.loggedIn(docDetails, request.done);
-                });
-            })
-            .catch((e) => {
-                me.loginFailed.call(me, e, request);
+        .then((uuid) => {
+            // docDetails is intercepted by the POD upload route on the server
+            // and a message constructed to the application.
+            let contents = request.contents;
+            contents.forEach((content) => {
+                let docDetails = {
+                    uuid,
+                    process: 'driverPDAinterface.setStatus',
+                    id: (request.id || -1).toString(),
+                    reference: content.reference,
+                    name: content.zones[0].value,
+                    signed: content.img,
+                    mimeType: "image/jpeg",
+                    dt: me.getISOdate()
+                };
+                // TODO: Implement as a promise.all
+                me.loggedIn(docDetails, request.done);
             });
+        })
+        .catch((e) => {
+            me.loginFailed.call(me, e, request);
+        });
     }
 
     /**
-    * Login failed 
-    */
+     * Login failed
+     */
     loginFailed(e, rq) {
         console.log(e);
         if (rq.error) {
@@ -73,156 +75,95 @@ class PODtransfers {
         }
         // Continue to try, if it was a server fault then it will just resume
         // when the problem is resolved.
-        this.to = setTimeout(() => { this.transfer() }, 1000);
+        this.to = setTimeout(() => {
+            this.transfer()
+        }, 1000);
 
     }
 
     /**
      * App is logged in and the transfer can start transfers
      */
-	 loggedIn(rq, cb) {
-		  const me   = this;
-		  const url  = `${me.x2.host}/${me.x2.script}/api/pod`;
+    loggedIn(rq, cb) {
+        const me = this;
+        const url = `${me.x2.host}/${me.x2.script}/api/pod`;
 
-		  // --- headers: let server know we're posting url-encoded form data ----
-		  //const headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
-		  const headers = { 'Content-Type': "application/json"};
-		  // --- fire the request -------------------------------------------------
-		  cordova.plugin.http.setDataSerializer('json')
-		  cordova.plugin.http.post(
-			  url,
-			  rq,         // body – left as JS object; plugin encodes it for us
-			  headers,
-			  (resp) => { // ---------- success ----------
-				const xmlError =
-				  '<x2><ERROR><DESCRIPTION>Invalid booking number</DESCRIPTION></ERROR></x2>';
+        // --- headers: let server know we're posting url-encoded form data ----
+        //const headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
+        const headers = {
+            'Content-Type': "application/json"
+        };
+        // --- fire the request -------------------------------------------------
+        cordova.plugin.http.setDataSerializer('json')
+        cordova.plugin.http.post(
+            url,
+            rq, // body – left as JS object; plugin encodes it for us
+            headers,
+            (resp) => { // ---------- success ----------
+            const xmlError =
+                '<x2><ERROR><DESCRIPTION>Invalid booking number</DESCRIPTION></ERROR></x2>';
 
-				if (resp.data === xmlError) {          // invalid booking #
-				  alert(`${rq.reference} is an invalid booking number`);
-				  for (let r = 0; r < me.scanBuffer.length; r++) {
-					if (me.scanBuffer[r].id === rq.id) {
-					  me.scanBuffer[r].reviewed = false;
-					  return;
-					}
-				  }
-				}
+            if (resp.data === xmlError) { // invalid booking #
+                alert(`${rq.reference} is an invalid booking number`);
+                for (let r = 0; r < me.scanBuffer.length; r++) {
+                    if (me.scanBuffer[r].id === rq.id) {
+                        me.scanBuffer[r].reviewed = false;
+                        return;
+                    }
+                }
+            }
 
-				// Remove from pending -------------------------------------------
-				const item = me.scanBuffer.splice(me.bufferPtr, 1)[0];
+            // Remove from pending -------------------------------------------
+            const item = me.scanBuffer.splice(me.bufferPtr, 1)[0];
 
-				if (me.$div) {
-				  if (currentEditId === rq.id) {
-					$('#inputFields').empty();
-					$('#inputDiv').hide();
-				  }
-				  $(`#${item.id}`).remove();           // drop from UI list
-				}
+            if (me.$div) {
+                if (currentEditId === rq.id) {
+                    $('#inputFields').empty();
+                    $('#inputDiv').hide();
+                }
+                $(`#${item.id}`).remove(); // drop from UI list
+            }
 
-				if (typeof host !== 'undefined') {
-				  // running inside IOTkeys – tell host to delete the file
-				  host.sendToHost(JSON.stringify({
-					type: 'delete',
-					fileName: item.fileName,
-					details: item
-				  }));
-				} else if (cb) {
-				  cb();                           // caller-supplied hook
-				}
+            if (typeof host !== 'undefined') {
+                // running inside IOTkeys – tell host to delete the file
+                host.sendToHost(JSON.stringify({
+                        type: 'delete',
+                        fileName: item.fileName,
+                        details: item
+                    }));
+            } else if (cb) {
+                cb(); // caller-supplied hook
+            }
 
-				// schedule next transfer ----------------------------------------
-				me.bufferPtr = (me.bufferPtr + 1) % me.scanBuffer.length;
-				me.to = setTimeout(() => me.transfer(), 1000);
-			  },
-			  (err) => {   // ---------- failure ----------
-				const req = me.scanBuffer[me.bufferPtr];
-				req.startingTransfer = false;
-				req.transferFailed   = true;
-				me.setDisplayState(req);
+            // schedule next transfer ----------------------------------------
+            me.bufferPtr = (me.bufferPtr + 1) % me.scanBuffer.length;
+            me.to = setTimeout(() => me.transfer(), 1000);
+        },
+            (err) => { // ---------- failure ----------
+            const req = me.scanBuffer[me.bufferPtr];
+            req.startingTransfer = false;
+            req.transferFailed = true;
+            me.setDisplayState(req);
 
-				cb && cb('Login failed');  // invoke caller hook
+            //cb && cb('Login failed');  // invoke caller hook
 
-				// keep retrying every second – same logic as original
-				me.to = setTimeout(() => me.transfer(), 1000);
-			  }
-			);
-		}
-
-    // loggedIn(rq) {
-        // let me = this;
-        // $.ajax({
-            // url: me.x2.host + "/" + me.x2.script + "/api/pod",
-            // type: 'POST',
-            // data: rq,
-            // crossDomain: true,
-            // dataType: "xml"
-        // })
-            // .done(function (rsp) {
-                // if (rsp == "<x2><ERROR><DESCRIPTION>Invalid booking number</DESCRIPTION></ERROR></x2>") {
-                    // alert(rq.reference + " is an invalid booking number");
-                    // for (var r = 0; r < me.scanBuffer.length; r++) {
-                        // if (me.scanBuffer[r].id = rq.id) {
-                            // me.scanBuffer[r].reviewed = false;
-                            // return;
-                        // }
-                    // }
-                // }
-
-                // // Remove from pending
-                // var item = me.scanBuffer.splice(this.bufferPtr, 1)[0];
-                // if (me.$div) {
-                    // if (currentEditId == rq.id) {
-                        // $("#inputFields").empty();
-                        // $("#inputDiv").hide();
-                    // }
-                    // // Remove from the list
-                    // $("#" + item.id).remove();
-                // }
-                // if (typeof host != 'undefined') {
-                    // // Running within IOTkeys
-                    // // Tell the host to remove the image file
-                    // var msg = {
-                        // type: "delete",
-                        // fileName: item.fileName,
-                        // details: item
-                    // };
-                    // host.sendToHost(JSON.stringify(msg));
-                // } else if (rq.done) {
-                    // rq.done();
-                // }
-                // // Do the next pending POD
-                // me.bufferPtr++;
-                // if (me.bufferPtr >= me.scanBuffer.length)
-                    // me.bufferPtr = 0;
-                // // Pause for 1 second to not overload the server
-                // me.to = setTimeout(() => { me.transfer() }, 1000);
-            // })
-            // .fail(function (jqXHR, textStatus, errorThrown) {
-                // var req = me.scanBuffer[me.bufferPtr];
-                // req.startingTransfer = false;
-                // req.transferFailed = true;
-                // me.setDisplayState(req);
-                // if (rq.error) {
-                    // rq.error("Login failed");
-                // }
-                // // Continue to try, if it was a server fault then it will just resume
-                // // when the problem is resolved.
-                // me.to = setTimeout(() => { me.transfer() }, 1000);
-            // });
-    // }
+            // keep retrying every second – same logic as original
+            me.to = setTimeout(() => me.transfer(), 1000);
+        });
+    }
 
     getISOdate(dt) {
         if (!dt)
             dt = new Date()
 
-        return dt.getFullYear() + "-" + (dt.getMonth() + 1)
-            + "-" + dt.getDate() + " " + dt.getHours() + ":" + dt.getMinutes();
+                return dt.getFullYear() + "-" + (dt.getMonth() + 1)
+                 + "-" + dt.getDate() + " " + dt.getHours() + ":" + dt.getMinutes();
     }
 
-
     /**
-    * If a display is being used this will update the 
-    * status of the pending transfers
-    */
+     * If a display is being used this will update the
+     * status of the pending transfers
+     */
     setDisplayState(msg) {
         return;
         let request = msg.data;
@@ -260,11 +201,13 @@ class PODtransfers {
         }
     }
     /**
-    * Starts the background transfers
-    */
+     * Starts the background transfers
+     */
     startTransfers() {
         clearTimeout(this.to);
-        this.to = setTimeout(() => { this.transfer() }, 1000);
+        this.to = setTimeout(() => {
+            this.transfer()
+        }, 1000);
     }
 
 }
