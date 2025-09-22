@@ -92,6 +92,7 @@ InternalPOD.prototype.Transfers = function(opts){
         });
         reject(err);
       };
+      // The data can now be added to the x2 POD transfer system
       comms.add(ev.data);
     });
     ev.finished.push(p);
