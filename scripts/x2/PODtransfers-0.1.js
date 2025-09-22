@@ -84,6 +84,7 @@ class PODtransfers {
     /**
      * App is logged in and the transfer can start transfers
      */
+
     loggedIn(rq, cb) {
         const me = this;
         const url = `${me.x2.host}/${me.x2.script}/api/pod`;
