@@ -35,6 +35,9 @@ InternalPOD.prototype.Config = function(){
       </div><div class="field">
         <label>Server script</label>
         <input type="text" class="instanceForm" id="centaurScript" placeholder="script" value="${instance.centaurScript || ''}">
+      </div><div class="field">
+        <label>Manual transfers</label>
+        <input type="checkbox" class="instanceForm" id="manualTransfers" placeholder="script" ${instance.manualTransfers ? "checked" : ''}>
       </div>`;
     $div.html(settings);
   };
@@ -47,6 +50,7 @@ InternalPOD.prototype.Config = function(){
       instance.centaurScript = $("#centaurScript").val();
       instance.centaurUsername = $("#centaurUsername").val();
       instance.centaurPassword = $("#centaurPassword").val();
+      instance.manualTransfers = $("#manualTransfers").val();
   };
   
 };
