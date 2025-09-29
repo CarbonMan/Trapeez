@@ -18,7 +18,8 @@ function InternalPOD(){
       centaurUsername: '',
       centaurPassword: '',
       centaurHost: '',
-      centaurScript: ''
+      centaurScript: '',
+      manualTransfers: false
     }, this.instances[opts.name]);
     if (typeof scanner != 'undefined'){
       // index.js - Background transfers
@@ -42,13 +43,6 @@ function InternalPOD(){
     this.configurationUI = new InternalPOD.prototype.Config();
   }
   
-  // if (typeof signatureCapture != 'undefined'){
-  //   // index.js - Background transfers
-  //   signatureCapture.on('storeSignature', (ev)=>{
-  //     // Tell the app that the signature should be transferred 
-  //     ev.transfer = true;
-  //   });
-  // }
   let ev = new CustomEvent('CENTAUR_POD_READY', {detail: this});
   document.dispatchEvent(ev);
 }
@@ -71,10 +65,13 @@ InternalPOD.prototype.Transfers = function(opts){
   * Fired from the app for background transfers
   */
   scanner.on('signatureTransfer', (ev)=>{
-      const action = ev.data.action;
-      if (action && action != 'CENTAUR_POD' && action != 'CENTAUR_RUNSHEETS'){
-        return;
-      }
+    if (instance.manualTransfers && !scanner.manualRequest){
+      return;
+    }
+    const action = ev.data.action;
+    if (action && action != 'CENTAUR_POD' && action != 'CENTAUR_RUNSHEETS'){
+      return;
+    }
     let p = new Promise((resolve, reject)=>{
       console.log("Centaur POD processing");
       console.dir(ev);
