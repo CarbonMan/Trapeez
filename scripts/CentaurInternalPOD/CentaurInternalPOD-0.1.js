@@ -71,9 +71,6 @@ InternalPOD.prototype.Transfers = function(opts){
   * Fired from the app for background transfers
   */
   scanner.on('signatureTransfer', (ev)=>{
-    if (instance.manualTransfers=='on' && !scanner.manualRequest){
-      return;
-    }
     const action = ev.data.action;
     if (action && action != 'CENTAUR_POD' && action != 'CENTAUR_RUNSHEETS'){
       return;
