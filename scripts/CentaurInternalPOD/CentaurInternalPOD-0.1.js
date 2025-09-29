@@ -19,7 +19,7 @@ function InternalPOD(){
       centaurPassword: '',
       centaurHost: '',
       centaurScript: '',
-      manualTransfers: false
+      manualTransfers: 'off'
     }, this.instances[opts.name]);
     if (typeof scanner != 'undefined'){
       // index.js - Background transfers
@@ -60,12 +60,18 @@ InternalPOD.prototype.Transfers = function(opts){
     host: instance.centaurHost,
     script: instance.centaurScript
   });
+
+  scanner.on('startSynchronize', (ev)=>{
+    if (instance.manualTransfers=='on' && !scanner.manualRequest){
+      ev.cancel = true;
+    }
+  });
   
   /**
   * Fired from the app for background transfers
   */
   scanner.on('signatureTransfer', (ev)=>{
-    if (instance.manualTransfers && !scanner.manualRequest){
+    if (instance.manualTransfers=='on' && !scanner.manualRequest){
       return;
     }
     const action = ev.data.action;
