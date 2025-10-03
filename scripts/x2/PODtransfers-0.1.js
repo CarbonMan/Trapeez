@@ -161,6 +161,9 @@ class PODtransfers {
             // treat as "handled" (no throw), so the loop can continue to next item
             return;
         }
+        if (resp?.data?.trim() !== "<ACK/>") {
+            throw new Error(`Unexpected server response: ${resp?.data}`);
+        }
 
         // Success path UI cleanup for this stage
         if (requestForUi) {
