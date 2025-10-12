@@ -162,12 +162,25 @@ InternalPOD_Runsheets = class {
             tableHtml += `
 	        <tr onclick="runsheets.processItem('${jobId}')" style="cursor: pointer;">
 	            <td>${jobId}</td>
+			    <td>${tuple.getElementsByTagName("MB_CODE")[0]?.textContent || tuple.getElementsByTagName("CST_CODE")[0]?.textContent}</td>
+	            <td>${tuple.getElementsByTagName("ITEMS")[0]?.textContent || ''}</td>
+	        </tr>`;
+        }
+
+		/*
+		for (let tuple of tuples) {
+            const refno = tuple.getElementsByTagName("REFNO")[0]?.textContent || '';
+            const jobId = tuple.getElementsByTagName("CONNOTE")[0]?.textContent || '';
+            tableHtml += `
+	        <tr onclick="runsheets.processItem('${jobId}')" style="cursor: pointer;">
+	            <td>${jobId}</td>
 			    <td>${tuple.getElementsByTagName("RECEIVERNAME")[0]?.textContent || ''}</td>
 	            <td>${tuple.getElementsByTagName("ITEMS")[0]?.textContent || ''}</td>
 			    <td>${tuple.getElementsByTagName("STREET")[0]?.textContent || ''}</td>
 			    <td>${tuple.getElementsByTagName("STREET2")[0]?.textContent || ''}</td>
 	        </tr>`;
         }
+		*/
 
         tableHtml += `
 		    </tbody>
