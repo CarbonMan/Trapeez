@@ -161,7 +161,7 @@ class PODtransfers {
             // treat as "handled" (no throw), so the loop can continue to next item
             return;
         }
-        if (resp?.data?.trim() !== "<ACK/>") {
+        if (resp?.data?.trim() !== "<x2><ACK/></x2>") {
             throw new Error(`Unexpected server response: ${resp?.data}`);
         }
 
