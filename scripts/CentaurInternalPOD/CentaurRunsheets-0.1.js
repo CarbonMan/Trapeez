@@ -148,15 +148,24 @@ InternalPOD_Runsheets = class {
 	<table class="ui celled striped selectable table">
 	    <thead class="ui inverted table">
 	        <tr>
-	            <th>JOB ID</th>
-			    <th>NAME</th>
+	            <th>MAILBOX</th>
 	            <th>ITEMS</th>
-			    <th colspan='2'>ADDRESS</th>
 	        </tr>
 	    </thead>
 	    <tbody>`;
 
         for (let tuple of tuples) {
+            const refno = tuple.getElementsByTagName("REFNO")[0]?.textContent || '';
+            const jobId = tuple.getElementsByTagName("CONNOTE")[0]?.textContent || '';
+            tableHtml += `
+	        <tr onclick="runsheets.processItem('${jobId}')" style="cursor: pointer;">
+	            <td>${tuple.getElementsByTagName("MAIL_BOX_CODE")[0]?.textContent || 'UNKNOWN'}</td>
+	            <td>${tuple.getElementsByTagName("ITEMS")[0]?.textContent || ''}</td>
+	        </tr>`;
+        }
+
+		/*
+		for (let tuple of tuples) {
             const refno = tuple.getElementsByTagName("REFNO")[0]?.textContent || '';
             const jobId = tuple.getElementsByTagName("CONNOTE")[0]?.textContent || '';
             tableHtml += `
@@ -168,6 +177,7 @@ InternalPOD_Runsheets = class {
 			    <td>${tuple.getElementsByTagName("STREET2")[0]?.textContent || ''}</td>
 	        </tr>`;
         }
+		*/
 
         tableHtml += `
 		    </tbody>
