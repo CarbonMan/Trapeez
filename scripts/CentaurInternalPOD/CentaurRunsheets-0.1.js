@@ -156,9 +156,9 @@ InternalPOD_Runsheets = class {
 
         for (let tuple of tuples) {
             const refno = tuple.getElementsByTagName("REFNO")[0]?.textContent || '';
-            const jobId = tuple.getElementsByTagName("CONNOTE")[0]?.textContent || '';
+            const rnHeader_mb = tuple.getElementsByTagName("AGGREGATE_ID")[0]?.textContent || '';
             tableHtml += `
-	        <tr onclick="runsheets.processItem('${jobId}')" style="cursor: pointer;">
+	        <tr onclick="runsheets.processItem('${rnHeader_mb}')" style="cursor: pointer;">
 	            <td>${tuple.getElementsByTagName("MAIL_BOX_CODE")[0]?.textContent || 'UNKNOWN'}</td>
 	            <td>${tuple.getElementsByTagName("ITEMS")[0]?.textContent || ''}</td>
 	        </tr>`;
