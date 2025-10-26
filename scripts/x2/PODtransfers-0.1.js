@@ -63,7 +63,7 @@ class PODtransfers {
                 for (const content of contents) {
                     const docDetails = {
                         uuid,
-                        process: 'driverPDAinterface.setStatus',
+                        process: 'driverPDAinterface.setStatusByMailbox',
                         id: (request.id || -1).toString(),
                         reference: content.reference,
                         name: content.zones?.[0]?.value,
