@@ -144,6 +144,19 @@ InternalPOD_Runsheets = class {
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(xmlString, "text/xml");
         const tuples = xmlDoc.getElementsByTagName("TUPLE");
+	    let transferredBatchIds = [];
+	    try {
+	        const raw = sessionStorage.getItem('transferredBatchIds');
+	        if (raw) {
+	            transferredBatchIds = JSON.parse(raw) || [];
+	        }
+	    } catch (e) {
+	        console.warn('Could not parse transferredBatchIds from sessionStorage', e);
+	        transferredBatchIds = [];
+	    }
+	    if (!Array.isArray(transferredBatchIds)) {
+	        transferredBatchIds = [];
+	    }
         let tableHtml = `
 	<table class="ui celled striped selectable table">
 	    <thead class="ui inverted table">
@@ -157,38 +170,16 @@ InternalPOD_Runsheets = class {
         for (let tuple of tuples) {
             const refno = tuple.getElementsByTagName("REFNO")[0]?.textContent || '';
             const rnHeader_mb = tuple.getElementsByTagName("AGGREGATE_ID")[0]?.textContent || '';
-            tableHtml += `
+	        // SKIP if this batchId has already been saved for transfer
+	        if (transferredBatchIds.includes(rnHeader_mb)) {
+	            continue;
+	        }
+			tableHtml += `
 	        <tr onclick="runsheets.processItem('${rnHeader_mb}')" style="cursor: pointer;">
 	            <td>${tuple.getElementsByTagName("MAIL_BOX_CODE")[0]?.textContent || 'UNKNOWN'}</td>
 	            <td>${tuple.getElementsByTagName("ITEMS")[0]?.textContent || ''}</td>
 	        </tr>`;
         }
-
-		/*
-		for (let tuple of tuples) {
-            const refno = tuple.getElementsByTagName("REFNO")[0]?.textContent || '';
-            const jobId = tuple.getElementsByTagName("CONNOTE")[0]?.textContent || '';
-            tableHtml += `
-	        <tr onclick="runsheets.processItem('${jobId}')" style="cursor: pointer;">
-	            <td>${tuple.getElementsByTagName("MAIL_BOX_CODE")[0]?.textContent || 'UNKNOWN'}</td>
-	            <td>${tuple.getElementsByTagName("ITEMS")[0]?.textContent || ''}</td>
-	        </tr>`;
-        }
-
-		/*
-		for (let tuple of tuples) {
-            const refno = tuple.getElementsByTagName("REFNO")[0]?.textContent || '';
-            const jobId = tuple.getElementsByTagName("CONNOTE")[0]?.textContent || '';
-            tableHtml += `
-	        <tr onclick="runsheets.processItem('${jobId}')" style="cursor: pointer;">
-	            <td>${jobId}</td>
-			    <td>${tuple.getElementsByTagName("RECEIVERNAME")[0]?.textContent || ''}</td>
-	            <td>${tuple.getElementsByTagName("ITEMS")[0]?.textContent || ''}</td>
-			    <td>${tuple.getElementsByTagName("STREET")[0]?.textContent || ''}</td>
-			    <td>${tuple.getElementsByTagName("STREET2")[0]?.textContent || ''}</td>
-	        </tr>`;
-        }
-		*/
 
         tableHtml += `
 		    </tbody>
